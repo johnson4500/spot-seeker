@@ -1,0 +1,44 @@
+.map-container {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+#map2 {
+    height: 50vh;
+    width: 60vw;
+    left: 20vw;
+}
+
+#text2 {
+    width: 100%;
+}
+
+#text3 {
+    font-size: 20px;
+}
+
+#topText {
+    margin: 20px;
+    margin-bottom: 20px;
+}
+
+.bigahcontainer {
+    margin-top: 15vh;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
