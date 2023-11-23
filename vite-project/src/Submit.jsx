@@ -73,7 +73,7 @@ export default function Submit() {
           const userRef = dbRef(rtDB, 'spots/' + spotName)
           set(userRef, {
             spotName: spotName,
-            spotDescription, spotDescription,
+            spotDesc, spotDescription,
             lat: lat,
             long: long,
             spotAddress: address,
