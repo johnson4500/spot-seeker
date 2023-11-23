@@ -69,6 +69,7 @@ export default function Submit() {
           console.log(url)
           uploadedURL = url
 
+          // Add spot to firebase realtime db
           const userRef = dbRef(rtDB, 'spots/' + spotName)
           set(userRef, {
             spotName: spotName,
@@ -83,9 +84,8 @@ export default function Submit() {
         })
       })
 
-      // Add user to firebase realtime db
-      
-      // navigate('/home')
+     
+      navigate('/home')
   }
 
   function mapLoad() {
