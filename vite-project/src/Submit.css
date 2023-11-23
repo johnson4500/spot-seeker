@@ -24,6 +24,12 @@
     margin-bottom: 20px;
 }
 
+.verText {
+    font-size: 30px;
+    margin-top: 50px;
+    text-align: center;
+}
+
 .bigahcontainer {
     margin-top: 15vh;
     opacity: 0;

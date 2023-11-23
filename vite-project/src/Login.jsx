@@ -12,24 +12,12 @@ export default function Login() {
     const[password, setPassword] = useState()
     const navigate = useNavigate()
   
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-    //     axios.post('http://localhost:3001/login', {email, password})
-    //     .then(result => { console.log(result.data)
-    //         const token = result.data.token
-    //         localStorage.setItem('token', token)
-    //         navigate('/home')
-    //     })
-    //     .catch(err => console.log(err))
-    // }
-
     const handleSubmit = (e) => {
         e.preventDefault()
         signInWithEmailAndPassword(auth, email, password)
         .then((userCredentials) => {
             // console.log(userCredentials)
             const user = userCredentials.user
-            console.log(user.emailVerified)
             navigate('/home')
         }).catch((error) => {
             console.log(error)

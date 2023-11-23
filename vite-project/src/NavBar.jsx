@@ -46,7 +46,7 @@ export default function navBar() {
             </a>
           </li>
           <li>
-        {authUser ? (<div>
+        {authUser !== null ? (<div>
               <button onClick = {userSignOut} className = "submitButton">Logout</button>  
               </div>
             ) : (

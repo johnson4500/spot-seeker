@@ -7,26 +7,25 @@ import { Fragment } from 'react'
 import {useState, useEffect} from 'react'
 import NavBar from './NavBar'
 import {ref, listAll, getDownloadURL} from 'firebase/storage'
-import {ref as dbRef, getDatabase, onValue} from 'firebase/database'
+import {child, ref as dbRef, getDatabase, onValue} from 'firebase/database'
 import { imgDB, rtDB, auth } from './firebaseconfig'
 import { onAuthStateChanged } from 'firebase/auth'
+import SpotWindow from './SpotWindow'
 
 
 
 export default function Home() {
-  const [data, setData] = useState('');
+  let testbool = true;
+  const [data, setData] = useState('')
+  const spots = []
   const markers = []
+  const [spotID, setSpotID] = useState(0)
+  const [testBool, setTestBool] = useState(false)
+  const [markersData, setMarkersData] = useState()
   const [imageList, setImageList] = useState([])
   const [authUser, setAuthUser] = useState(null)
   const imageListRef = ref(imgDB, 'images/')
   const databaseRef = dbRef(rtDB, 'spots/')
-  
-
-
-  // useEffect(() => {const token = localStorage.getItem('token')
-  //   if (token) {
-  //     setIsLoggedIn(true)
-  // }})
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -35,53 +34,35 @@ export default function Home() {
       } else {
       setAuthUser(null)
       }
-
-      onValue(databaseRef, (snapshot) => {
-        const data = snapshot.val()
-        console.log(data)
     })
 
-        listAll(imageListRef).then((response) => {
-        response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-            setImageList((prev) => [...prev, url])
-        })
+    onValue(databaseRef, (snapshot) => {
+      snapshot.forEach(childSnapShot => {
+        spots.push(childSnapShot.val())
       })
+      setMarkersData(spots)
     })
-  })
-
-  }, [])
-  //   axios.get('http://localhost:3001/home')
-  //   .then(res => {
-  //       console.log(res.data)
-  //       setData(res.data)
+  
+    listAll(imageListRef).then((response) => {
+        response.items.forEach((item) => {
+          getDownloadURL(item).then((url) => {
+            setImageList((prev) => [...prev, url])
+          })
+        })
         
-  //   })
-  //   .catch(err => console.log(err))
-
-  //   listAll(imageListRef).then((response) => {
-  //     response.items.forEach((item) => {
-  //       getDownloadURL(item).then((url) => {
-  //           setImageList((prev) => [...prev, url])
-  //       })
-  //     })
-  //   })
-  // }, [])
-
-  // function handleLogout() {
-  //   localStorage.removeItem('token')
-  //   setIsLoggedIn(false)
-  // }
-
-  for (let i = 0; i < data.length; i++) {
-    let geocode = 
-    {
-      geocode: [data[i].lat, data[i].long],
-      description: data[i].spotDescription
-    }
-    markers[i] = geocode
+      })
+  }, [])
+      
+  function getSpotContent(obj) {
+    // setSpotID(obj)
+    console.log(obj.currentTarget.id);
+    setTestBool(true)
+    setSpotID(obj.currentTarget.id)
   }
 
+  function boolChange() {
+    setTestBool(false)
+  }
 
   const customIcon = new Icon({
     iconUrl: "https://cdn2.iconfinder.com/data/icons/activity-5/50/1F6F9-skateboard-512.png",
@@ -98,37 +79,64 @@ export default function Home() {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {markers.map(marker => (
-          <Marker position = {marker.geocode} icon = {customIcon}>
+      {markersData ? (
+        <div>
+        {markersData.map(spot => (
+          <Marker position = {[spot.lat, spot.long]} icon = {customIcon}>
             <Popup>
-              {marker.description}
+              {spot.spotDescription}
             </Popup>
           </Marker>
-        ))
-      }
+          ))
+         }
+        </div> 
+      ):(
+        <div></div>
+      )}
+      
       </MapContainer>
+
+      
+      { testBool ? (
       <div className = "spotContainer">
-        <h2 id = "text1" >View Skate Spots!</h2>
-        <div>
-          {imageList ? (
-            <div>
-              {imageList.map(url => (
-                <div className="element-container">
-                  <img src = {url} className = 'image'/>
-                  {/* <div className = "element-text">
-                    {element.spotName}
-                  </div> */}
-                </div>
-              )
-              )}
-            </div>
-            ) : (
-              <p className = "errorText">No spots are currently available.</p>
-            )
-            }
-            
+        {markersData ? (
+          <div className = "spotWindow">
+          <br></br>
+          <img className = "spotImage" src = {markersData[spotID].imgURL}></img>
+          <br></br>
+          <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
+          <p id = "spotInfo">Address: {markersData[spotID].spotAddress}</p>
+          <br></br>
+          <button id = "backButton" onClick = {boolChange}> Back</button>
+          </div>
+        ) : (
+          <div></div>
+        )}
         </div>  
-      </div>
+      ):(
+        <div className = "spotContainer">
+        <h2 id = "text1" >View Skate Spots!</h2>
+          <div>
+            {markersData ? (
+              <div>
+                {markersData.map((data, i) => (
+                  <div id = {i} className="element-container" onClick={getSpotContent}>
+                    <img src = {data.imgURL} className = 'image'/>
+                    <div className = "element-text">
+                      {markersData[i].spotName}
+                    </div>
+                  </div>
+                )
+                )}
+              </div>
+              ) : (
+                <p className = "errorText">Loading spots....</p>
+              )
+            }
+          </div>  
+        </div>
+      )}
+      
       </div>
     </Fragment>
   )

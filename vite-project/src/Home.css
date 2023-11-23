@@ -77,22 +77,27 @@
     text-align: center;
 }
 
-.element-container {    
+.element-container {
     height: 30vh;
     width: 180px;
     display: inline-block;
     border-radius: 5px;
-    margin-left: 50px;
-    margin-right: 50px;
+    margin-left: 62px;
+    margin-right: 62px;
     margin-bottom: 50px;
+    background-color: black;
     border: 1px solid rgb(214, 214, 214);
     padding:10px;
     gap: 10px; /* Adjust the gap between elements as needed */
 }
 
-.element-text {
+.element-container:hover {
+    background-color: rgb(24, 24, 24);
+}
 
+.element-text {
     font-size: 30px;
+    color: white;
     text-align: center;
 }
 
@@ -100,8 +105,37 @@
     align-items: center;
     width: 100%;
     height: 80%;
+    border-radius: 5%;
 }
 
 .errorText {
     text-align: center;
+}
+
+.spotWindow {
+    margin-left: 3vh;    
+}
+
+.spotImage {
+    height: 300px;
+    width: 300px;
+    margin-bottom: 5px;
+}
+
+#spotTitleText {
+    font-size: 30px;
+}
+
+#backButton {
+    border: none;
+    border-radius: 5px;
+    background-color: green;
+    color:white;
+    height: 50px;
+    width: 300px;
+    margin-top: 20vh;
+}
+
+#spotInfo {
+    margin-top: 15px;
 }

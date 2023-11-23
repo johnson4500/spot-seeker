@@ -8,7 +8,7 @@ import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch'
 import './Submit.css'
 import 'leaflet-geosearch/dist/geosearch.css'
 import {v4} from 'uuid'
-import {ref, uploadBytes} from 'firebase/storage'
+import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
 import {set, ref as dbRef} from 'firebase/database'
 import { auth, rtDB, imgDB } from './firebaseconfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -28,6 +28,7 @@ export default function Submit() {
     const[emailVerified, setEmailVerified] = useState(false)
     const[searchResults, setSearchResults] = useState()  
     const[imageUpload, setImageUpload] = useState(null)
+    var uploadedURL = ""
 
     useEffect(() => {
       auth.onAuthStateChanged((user) => {
@@ -35,15 +36,14 @@ export default function Submit() {
         if (user && user.emailVerified) {
           setIsAuthorized(true)
           setEmailVerified(true)
+          mapLoad()
         } else if (user && !user.emailVerified) {
           setIsAuthorized(true)
           setEmailVerified(false)
         } else {
           setIsAuthorized(false)
           setEmailVerified(false)
-        }
-
-        mapLoad()
+        }  
       })
     }, []);
 
@@ -58,90 +58,100 @@ export default function Submit() {
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      // axios.post('http://localhost:3001/submit', {spotName, spotDescription, lat, long})
-      // .then(result => { 
-      // console.log(result)
-
-      // Add user to firebase realtime db
-      const userRef = dbRef(rtDB, 'spots/' + spotName)
-      set(userRef, {
-        spotName: spotName,
-        spotDescription, spotDescription,
-        lat: lat,
-        long: long
-      }).then(() => {
-        console.log("Spot added.")
-      })
 
       // Add image to firebase storage
       const imageRef = ref(imgDB, `images/${imageUpload[0].name + v4()}`)
-      uploadBytes(imageRef, imageUpload[0]).then(() => {
+      uploadBytes(imageRef, imageUpload[0]).then(snapshot => {
         console.log("Image uploaded")
+        console.log(snapshot)
+        
+        getDownloadURL(ref(imgDB, snapshot.metadata.fullPath)).then((url) => {
+          console.log(url)
+          uploadedURL = url
+
+          const userRef = dbRef(rtDB, 'spots/' + spotName)
+          set(userRef, {
+            spotName: spotName,
+            spotDescription, spotDescription,
+            lat: lat,
+            long: long,
+            spotAddress: address,
+            imgURL: uploadedURL
+          }).then(() => {
+            console.log("Spot added.")
+          })
+        })
       })
-      navigate('/home')
+
+      // Add user to firebase realtime db
+      
+      // navigate('/home')
   }
 
   function mapLoad() {
-          const map2 = L.map('map2').setView([43.747474670410156, -79.49417877197266], 10)
+    const map2 = L.map('map2').setView([43.747474670410156, -79.49417877197266], 10)
 
-          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap'
-          }).addTo(map2)
-      
-          const customIcon = new Icon({
-            iconUrl: "https://cdn2.iconfinder.com/data/icons/activity-5/50/1F6F9-skateboard-512.png",
-            iconSize: [64, 64]
-          })  
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map2)
 
-          const searchControl = new GeoSearchControl({
-            provider: new OpenStreetMapProvider(),
-            style: 'bar',
-            showMarker: false,
-            marker: {
-              icon: customIcon,
-              draggable: false,
-            }
-          });
+    const customIcon = new Icon({
+      iconUrl: "https://cdn2.iconfinder.com/data/icons/activity-5/50/1F6F9-skateboard-512.png",
+      iconSize: [64, 64]
+    })  
 
-          map2.addControl(searchControl)
+    const searchControl = new GeoSearchControl({
+      provider: new OpenStreetMapProvider(),
+      style: 'bar',
+      showMarker: false,
+      marker: {
+        icon: customIcon,
+        draggable: false,
+      }
+    });
 
-          var iconOptions = {
-            clickable:true,
-            icon: customIcon
-          }
+    map2.addControl(searchControl)
 
-          var marker = L.marker(new L.LatLng(0, 0), iconOptions)
-          marker.addTo(map2)
-          map2.on('click', function(e) {
-            var coord = e.latlng
-            var coordlat = coord.lat
-            var coordlng = coord.lng
-            var newLatLng = new L.LatLng(coordlat, coordlng)
-            marker.setLatLng(newLatLng)
-            setLat(coordlat)
-            setLong(coordlng)
-            getAddress(coordlat, coordlng)
-          })
+    var iconOptions = {
+      clickable:true,
+      icon: customIcon
+    }
 
-          function getAddress(coordlat, coordlng) {
-            axios.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + coordlat + '&lon=' + coordlng)
-            .then(result => {
-              setAddress(result.data.display_name)
-            })
-            .catch(error => {
-              console.log(error)})
-            }
+    var marker = L.marker(new L.LatLng(0, 0), iconOptions)
+    marker.addTo(map2)
+    map2.on('click', function(e) {
+      var coord = e.latlng
+      var coordlat = coord.lat
+      var coordlng = coord.lng
+      var newLatLng = new L.LatLng(coordlat, coordlng)
+      marker.setLatLng(newLatLng)
+      setLat(coordlat)
+      setLong(coordlng)
+      getAddress(coordlat, coordlng)
+    })
 
-          map2.on('geosearch/showlocation', function(e) {
-            var coordlat = e.location.y
-            var coordlng = e.location.x
-            setLat(coordlat)
-            setLong(coordlng)
-            var newLatLng = new L.LatLng(coordlat, coordlng)
-            marker.setLatLng(newLatLng)
-            getAddress(coordlat, coordlng)
-          })
+    function getAddress(coordlat, coordlng) {
+      axios.get('https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + coordlat + '&lon=' + coordlng)
+      .then(result => {
+        console.log(result.data)
+        let addressData = result.data.address
+        setAddress((addressData.house_number ? addressData.house_number + " " : "") + addressData.road + ", " + addressData.city
+        + ", " + addressData.state + ", " + addressData.country)
+      })
+      .catch(error => {
+        console.log(error)})
+      }
+
+    map2.on('geosearch/showlocation', function(e) {
+      var coordlat = e.location.y
+      var coordlng = e.location.x
+      setLat(coordlat)
+      setLong(coordlng)
+      var newLatLng = new L.LatLng(coordlat, coordlng)
+      marker.setLatLng(newLatLng)
+      getAddress(coordlat, coordlng)
+    })
   }
 
     return (
@@ -152,11 +162,11 @@ export default function Submit() {
             {emailVerified == true ? (
               <div></div>
             ) : (
-              <div>Please verify your email!</div>
+              <p className = "verText">Please verify your email!</p>
             )}
           </div>
         ) : (
-            <div>Please login to submit!</div>
+            <p className = "verText">Please login to submit!</p>
           )
         }
         
@@ -166,11 +176,14 @@ export default function Submit() {
               <h2 id = 'topText'>Add Your Own Skatespot!</h2>
               <strong id = "text3">Coordinates</strong>
               <p id = 'text2'>Enter an address using the search bar, then drop a pin at the approximate location.</p>
+              
             </div>
               ) : (
               <div></div>
           )}
+          
           <div id = 'map2'></div>
+          
           {emailVerified == true && step == 1 ? (
             <div>
               <br></br>

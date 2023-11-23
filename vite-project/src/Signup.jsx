@@ -17,24 +17,6 @@ export default function Signup() {
     const[password, setPassword] = useState()
     const navigate = useNavigate()
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault()
-    //     axios.post('http://localhost:3001/register', {name, email, password})
-    //     .then(result => { 
-    //     console.log(result)
-    //     const userRef = dbRef(rtDB, 'users/' + name)
-    //     set(userRef, {
-    //     name: name,
-    //     email: email,
-    //     password: result.data.password,
-    //   }).then(() => {
-    //     console.log("Spot added.")
-    //   })
-    //     navigate('/login')
-    // })
-    //     .catch(err => console.log(err))
-    // }
-
     const actionCodeSettings = {
         url: 'http://localhost:3000/home',
         handleCodeInApp: true
@@ -65,19 +47,6 @@ export default function Signup() {
                 <h2 id = 'topText'>Register</h2>
                 <br></br>
                 <form onSubmit = {handleSubmit}>
-                    {/* <div>
-                        <label htmlFor = "email">
-                            <strong>Name</strong>
-                        </label>
-                        <br></br>
-                        <input
-                        className = "inputFields"
-                         type = "text"
-                         placeholder = "Enter Name"
-                         autoComplete = "off"
-                         name = "email"
-                         onChange = {(e) => setName(e.target.value)}/>
-                    </div> */}
                     <br></br>
                     <div>
                         <label htmlFor = "email">
