@@ -10,6 +10,8 @@ import Submit from './Submit'
 function App() {
 
   return (
+    <div>
+    <p>Hey</p>
     <BrowserRouter>
       <Routes>
         <Route path = '/register' element = {<Signup/>}></Route>
@@ -19,6 +21,7 @@ function App() {
         <Route path = '/submit' element = {<Submit/>}></Route>
       </Routes>
     </BrowserRouter>
+    </div>
   )
 }
 
