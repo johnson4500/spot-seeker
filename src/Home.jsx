@@ -26,6 +26,23 @@ export default function Home() {
   const [authUser, setAuthUser] = useState(null)
   const imageListRef = ref(imgDB, 'images/')
   const databaseRef = dbRef(rtDB, 'spots/')
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  function showNextImage() {
+    if (currentIndex < markersData.length){
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
+  };
+
+  function showLastImage() {
+    if (currentIndex > 0){
+      setCurrentIndex(currentIndex - 1);
+    } else {
+      setCurrentIndex(markersData.length);
+    }
+  };
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -102,11 +119,10 @@ export default function Home() {
         {markersData ? (
           <div className = "spotWindow">
           <br></br>
-          {markersData[spotID].uploadedImgURLs.map((image) => (
-            <>
-            <img className = "spotImage" src = {image}></img>
-            </>
-          ))}
+          <img className = "spotImage" src = {markersData[spotID].uploadedImgURLs[currentIndex]}></img>
+          <br></br>
+          <button id = 'prevImageButton' onClick={showLastImage}>&lt;</button>
+          <button onClick={showNextImage}>&gt;</button>
           <br></br>
           <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
           <p id = "spotInfo">Address: {markersData[spotID].spotAddress}</p>

@@ -121,9 +121,10 @@
 
 .spotImage {
     height: auto;
-    width: 100%;
+    width: 80%;
     margin-bottom: 5px;
     margin-right: 20px;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 #spotTitleText {
@@ -142,4 +143,8 @@
 
 #spotInfo {
     margin-top: 15px;
+}
+
+#prevImageButton {
+    margin-right: 80%;
 }
