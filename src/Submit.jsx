@@ -80,7 +80,7 @@ export default function Submit() {
             imgURL: uploadedURL
           }).then(() => {
             console.log("Spot added.")
-            navigate('/home')
+            navigate('/skateSpots')
           })
         })
       }
