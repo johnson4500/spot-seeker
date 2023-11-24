@@ -18,7 +18,7 @@ export default function Signup() {
     const navigate = useNavigate()
 
     const actionCodeSettings = {
-        url: 'http://localhost:3000/home',
+        url: 'https://johnson4500.github.io/skateSpots/',
         handleCodeInApp: true
     }
 

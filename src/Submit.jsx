@@ -193,7 +193,6 @@ export default function Submit() {
           {emailVerified == true && step == 1 ? (
             <div>
               <h2 id = 'topText'>Add Your Own Skatespot!</h2>
-              <strong id = "text3">Coordinates</strong>
               <p id = 'text2'>Enter an address using the search bar, then drop a pin at the approximate location.</p>
               
             </div>
@@ -251,7 +250,7 @@ export default function Submit() {
                           placeholder = "Enter Spot Name"
                           autoComplete = "off"
                           id = "name"
-                          accept=".png, .jpg, .webp, .mp4"
+                          accept=".png, .jpg, .jpeg, .webp, .mp4"
                           onChange = {(e) => setSpotName(e.target.value)}/>
                       </div>
                       <br></br>       

@@ -16,7 +16,6 @@ import SpotWindow from './SpotWindow'
 
 export default function Home() {
   let testbool = true;
-  const [data, setData] = useState('')
   const spots = []
   const markers = []
   const [spotID, setSpotID] = useState(0)
@@ -28,20 +27,21 @@ export default function Home() {
   const databaseRef = dbRef(rtDB, 'spots/')
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  function showNextImage() {
-    if (currentIndex < markersData.length){
+  function showNextImage(length) {
+    if (currentIndex < length - 1){
       setCurrentIndex(currentIndex + 1);
     } else {
       setCurrentIndex(0);
     }
   };
 
-  function showLastImage() {
+  function showLastImage(length) {
     if (currentIndex > 0){
       setCurrentIndex(currentIndex - 1);
     } else {
-      setCurrentIndex(markersData.length);
+      setCurrentIndex(length - 1);
     }
+    // console.log(markersData[spotID].uploadedImgURLs.length)
   };
 
   useEffect(() => {
@@ -77,6 +77,11 @@ export default function Home() {
     setSpotID(obj.currentTarget.id)
   }
 
+  function markerClick(id) {
+    setTestBool(true)
+    setSpotID(id)
+  }
+
   function boolChange() {
     setTestBool(false)
   }
@@ -98,8 +103,17 @@ export default function Home() {
 
       {markersData ? (
         <div>
-        {markersData.map(spot => (
-          <Marker position = {[spot.lat, spot.long]} icon = {customIcon}>
+        {markersData.map((spot, i) => (
+          <Marker 
+            id = {i} 
+            position = {[spot.lat, spot.long]} 
+            icon = {customIcon}
+            eventHandlers={{
+              click: (e) => {
+                console.log('marker clicked', e)
+                markerClick(e.target.options.id)
+              }}}
+          >
             <Popup>
               {spot.spotDescription}
             </Popup>
@@ -110,7 +124,6 @@ export default function Home() {
       ):(
         <div></div>
       )}
-      
       </MapContainer>
 
       
@@ -121,8 +134,8 @@ export default function Home() {
           <br></br>
           <img className = "spotImage" src = {markersData[spotID].uploadedImgURLs[currentIndex]}></img>
           <br></br>
-          <button id = 'prevImageButton' onClick={showLastImage}>&lt;</button>
-          <button onClick={showNextImage}>&gt;</button>
+          <button id = 'prevImageButton' onClick={() => showLastImage(markersData[spotID].uploadedImgURLs.length)}>&lt;</button>
+          <button onClick={() => showNextImage(markersData[spotID].uploadedImgURLs.length)}>&gt;</button>
           <br></br>
           <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
           <p id = "spotInfo">Address: {markersData[spotID].spotAddress}</p>
@@ -135,15 +148,19 @@ export default function Home() {
         </div>  
       ):(
         <div className = "spotContainer">
-        <h2 id = "text1" >View Skate Spots!</h2>
-          <div>
             {markersData ? (
-              <div>
+              <div className = "spotContainer">
+                <h2 id = "text1" >View Skate Spots!</h2>
                 {markersData.map((data, i) => (
                   <div id = {i} className="element-container" onClick={getSpotContent}>
-                    <img src = {data.uploadedImgURLs[0]} className = 'image'/>
-                    <div className = "element-text">
+                    <img src = {data.uploadedImgURLs[0]} className = 'image'/>  
+                    <div className="overlay">
+                      <div className = "element-text">
                       {markersData[i].spotName}
+                      </div>
+                      <div className = "element-textAddress">
+                        {markersData[i].spotAddress}
+                      </div>
                     </div>
                   </div>
                 )
@@ -154,7 +171,6 @@ export default function Home() {
               )
             }
           </div>  
-        </div>
       )}
       
       </div>

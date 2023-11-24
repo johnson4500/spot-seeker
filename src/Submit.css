@@ -1,10 +1,22 @@
 .map-container {
+    position: relative;
     width: 100%;
     align-items: center;
     text-align: center;
     opacity: 0;
     animation: fadeIn 0.5s ease-in-out forwards;
 }
+
+.leaflet-geosearch-bar{
+    position: fixed;
+    right: 250px;
+    z-index: 1000; /* Ensure the search bar is above other elements */
+}
+
+.leaflet-geosearch-bar form{
+    width: 175%;
+  }
+
 #map2 {
     height: 50vh;
     width: 60vw;
