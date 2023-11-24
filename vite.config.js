@@ -5,5 +5,5 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: "/skateSpots/",
-  root: Path.join(__dirname, 'src')
+  root: "/src"
 })
