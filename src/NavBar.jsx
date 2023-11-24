@@ -41,7 +41,7 @@ export default function navBar() {
         <a href = '/' className = 'titleSite'>jonathan gooning</a>
         <ul>
           <li>
-            <a href = "/skateSpots/submit">
+            <a href = "/skateSpots/#submit">
               <button className = "submitButton">Submit a Spot</button>
             </a>
           </li>
@@ -51,10 +51,10 @@ export default function navBar() {
               </div>
             ) : (
                <ul>
-            <a href = "/skateSpots/login">
+            <a href = "/skateSpots/#login">
               <button className = "loginButton">Login</button>
             </a>
-            <a href = "/skateSpots/register">
+            <a href = "/skateSpots/#register">
             <button className = "regButton">Register</button>
             </a>
             </ul>

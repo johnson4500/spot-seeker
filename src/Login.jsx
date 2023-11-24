@@ -18,7 +18,7 @@ export default function Login() {
         .then((userCredentials) => {
             // console.log(userCredentials)
             const user = userCredentials.user
-            navigate('/skateSpots')
+            navigate('/')
         }).catch((error) => {
             console.log(error)
         })

@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import {HashRouter, Routes, Route} from 'react-router-dom'
 import Layout from './Layout'
 import Signup from './Signup'
 import Login from './Login'
@@ -11,16 +11,16 @@ import Submit from './Submit'
 function App() {
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
-        <Route path="/skateSpots" element={<Home />}></Route>
-        <Route path = 'skateSpots/register' element = {<Signup/>}></Route>
-        <Route path = 'skateSpots/login' element = {<Login/>}></Route>
+        <Route exact path="/" element={<Home />}></Route>
+        <Route exact path = '/register' element = {<Signup/>}></Route>
+        <Route exact path = '/login' element = {<Login/>}></Route>
         {/* <Route path = 'skateSpots/home' element = {<Home/>}></Route> */}
-        <Route path = 'skateSpots/test' element = {<Test/>}></Route>
-        <Route path = 'skateSpots/submit' element = {<Submit/>}></Route>
+        <Route exact path = '/test' element = {<Test/>}></Route>
+        <Route exact path = '/submit' element = {<Submit/>}></Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   )
 }
 

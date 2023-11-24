@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/johnson4500/skateSpots",
+  "homepage": "https://github.com/johnson4500/skateSpots/#",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
