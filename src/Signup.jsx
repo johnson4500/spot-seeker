@@ -30,7 +30,7 @@ export default function Signup() {
             sendEmailVerification(auth.currentUser, actionCodeSettings).then(() => {
                 console.log('Email verification link sent!')
             })
-            navigate('/home')
+            navigate('/')
         }).catch((error) => {
             console.log(error)
         })
