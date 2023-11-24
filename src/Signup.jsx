@@ -43,7 +43,6 @@ export default function Signup() {
             <div className = "container">
             <br></br> 
             <br></br> 
-            <br></br> 
                 <h2 id = 'topText'>Register</h2>
                 <br></br>
                 <form onSubmit = {handleSubmit}>
@@ -80,7 +79,9 @@ export default function Signup() {
                         Register
                     </button>
                 </form>
-                <button id = "regButt" className = "buttons">Already Have an Account</button>
+                <a href = "/skateSpots/#login">
+                    <button id = "regButt" className = "buttons">Already Have an Account</button>
+                </a>
             </div>
         </div>
         </Fragment>

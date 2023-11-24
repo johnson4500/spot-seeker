@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {HashRouter, Routes, Route} from 'react-router-dom'
-import Layout from './Layout'
 import Signup from './Signup'
 import Login from './Login'
 import Home from './Home'

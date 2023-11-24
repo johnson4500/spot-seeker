@@ -9,7 +9,7 @@ import './Submit.css'
 import 'leaflet-geosearch/dist/geosearch.css'
 import {v4} from 'uuid'
 import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
-import {set, ref as dbRef} from 'firebase/database'
+import {set, ref as dbRef, update} from 'firebase/database'
 import { auth, rtDB, imgDB } from './firebaseconfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
@@ -22,13 +22,13 @@ export default function Submit() {
     const[lat, setLat] = useState()
     const[long, setLong] = useState()
     const[address, setAddress] = useState()
-    const[imgPath, setImgPath] = useState()
+    const[previewFiles, setPreviewFiles] = useState()
     const[spotDescription, setSpotDescription] = useState()
     const[isAuthorized, setIsAuthorized] = useState(false)
     const[emailVerified, setEmailVerified] = useState(false)
     const[searchResults, setSearchResults] = useState()  
     const[imageUpload, setImageUpload] = useState(null)
-    var uploadedURL = ""
+    const spotRef = dbRef(rtDB, 'spots/' + spotName)
 
     useEffect(() => {
       auth.onAuthStateChanged((user) => {
@@ -60,31 +60,51 @@ export default function Submit() {
       e.preventDefault()
 
       // Add image to firebase storage
-      const imageRef = ref(imgDB, `images/${imageUpload[0].name + v4()}`)
-      uploadBytes(imageRef, imageUpload[0]).then(snapshot => {
-        console.log("Image uploaded")
-        console.log(snapshot)
-        
-        getDownloadURL(ref(imgDB, snapshot.metadata.fullPath)).then((url) => {
-          console.log(url)
-          uploadedURL = url
-
-          // Add spot to firebase realtime db
-          const userRef = dbRef(rtDB, 'spots/' + spotName)
-          set(userRef, {
-            spotName: spotName,
-            spotDesc, spotDescription,
-            lat: lat,
-            long: long,
-            spotAddress: address,
-            imgURL: uploadedURL
-          }).then(() => {
-            console.log("Spot added.")
-            navigate('/')
+      
+      var uploadedImgURLs = ['test']
+      function imgUpload() {
+        // Create an array to store promises
+        const uploadPromises = [];
+      
+        for (let i = 0; i < imageUpload.length; i++) {
+          const imageRef = ref(imgDB, `images/${imageUpload[i].name + v4()}`);
+          const uploadPromise = uploadBytes(imageRef, imageUpload[i])
+            .then(snapshot => getDownloadURL(ref(imgDB, snapshot.metadata.fullPath)))
+            .then(url => {
+              uploadedImgURLs[i] = url;
+            });
+      
+          uploadPromises.push(uploadPromise);
+        }
+      
+        // Wait for all promises to resolve before logging and updating
+        Promise.all(uploadPromises)
+          .then(() => {
+            update(spotRef, { uploadedImgURLs: uploadedImgURLs });
           })
-        })
+          .catch(error => {
+            console.error("Error uploading images:", error);
+          });
       }
-    )
+
+      // Add spot to firebase realtime db
+      set(spotRef, {
+        spotName: spotName,
+        spotDescription, spotDescription,
+        lat: lat,
+        long: long,
+        spotAddress: address,
+        uploadedImgURLs: ['']
+      }).then(() => {
+        console.log("Spot added.")
+        navigate('/')
+      })
+
+      imgUpload()
+  }
+
+  function displayFiles(files) {
+    // setPreviewFiles(URL.createObjectURL(files));
   }
 
   function mapLoad() {
@@ -231,11 +251,12 @@ export default function Submit() {
                           placeholder = "Enter Spot Name"
                           autoComplete = "off"
                           id = "name"
+                          accept=".png, .jpg, .webp, .mp4"
                           onChange = {(e) => setSpotName(e.target.value)}/>
                       </div>
                       <br></br>       
                       <div>
-                          <label htmlFor = "image">
+                          <label htmlFor = "files">
                           <strong>Image Path</strong>
                           </label>
                           <br></br>
@@ -245,8 +266,12 @@ export default function Submit() {
                           placeholder = "Enter Image Link"
                           autoComplete = "off"
                           id = "image"
-                          onChange = {(e) => setImageUpload(e.target.files)}/>
-                          {/* <button onClick = {uploadImage}>Upload Image</button> */}
+                          multiple
+                          onChange = {(e) => {setImageUpload(e.target.files); displayFiles(e.target.files);}}/>
+                          <div className = "filePreviewContainer">
+                            <img src={previewFiles}/>
+                          </div>
+                          
                       </div>
                       <br></br>
                       <div>

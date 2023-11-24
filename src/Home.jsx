@@ -102,7 +102,11 @@ export default function Home() {
         {markersData ? (
           <div className = "spotWindow">
           <br></br>
-          <img className = "spotImage" src = {markersData[spotID].imgURL}></img>
+          {markersData[spotID].uploadedImgURLs.map((image) => (
+            <>
+            <img className = "spotImage" src = {image}></img>
+            </>
+          ))}
           <br></br>
           <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
           <p id = "spotInfo">Address: {markersData[spotID].spotAddress}</p>
@@ -121,7 +125,7 @@ export default function Home() {
               <div>
                 {markersData.map((data, i) => (
                   <div id = {i} className="element-container" onClick={getSpotContent}>
-                    <img src = {data.imgURL} className = 'image'/>
+                    <img src = {data.uploadedImgURLs[0]} className = 'image'/>
                     <div className = "element-text">
                       {markersData[i].spotName}
                     </div>

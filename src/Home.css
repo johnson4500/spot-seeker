@@ -68,6 +68,7 @@
     overflow-y: auto;
     top: -66vh;
     height: 89vh;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 #text1 {
@@ -89,6 +90,7 @@
     border: 1px solid rgb(214, 214, 214);
     padding:10px;
     gap: 10px; /* Adjust the gap between elements as needed */
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 .element-container:hover {
@@ -114,12 +116,14 @@
 
 .spotWindow {
     margin-left: 3vh;    
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 .spotImage {
-    height: 300px;
-    width: 300px;
+    height: auto;
+    width: 100%;
     margin-bottom: 5px;
+    margin-right: 20px;
 }
 
 #spotTitleText {

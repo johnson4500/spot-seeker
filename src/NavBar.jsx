@@ -17,7 +17,6 @@ export default function navBar() {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthUser(user)
-        console.log(user)
       } else {
       setAuthUser(null)
       }
