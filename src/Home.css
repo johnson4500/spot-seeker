@@ -4,14 +4,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 5rem;
     padding: 0 1rem;
+    height: 10vh;
+    text-overflow: auto;
 }
 
 
 .titleSite {
-    font-size: 40px;
-    padding: 10px;
+    font-size: 2.5vmax;
 }
 
 .nav a {
@@ -23,7 +23,7 @@
     padding: 0;
     margin: 0;
     list-style: none;
-    gap: 2rem;
+    gap: 1rem;
     display:flex;
 }
 
@@ -32,7 +32,10 @@
     border: none;
     border-radius: 10px;
     background-color: green;
-    padding: 15px;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
 }
 
 .regButton {
@@ -40,7 +43,10 @@
     border: none;
     border-radius: 10px;
     background-color: gray;
-    padding: 15px;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
 }
 
 .submitButton {
@@ -48,7 +54,10 @@
     border: none;
     border-radius: 10px;
     background-color: white;
-    padding: 15px;
+    padding-top: 1.5vh;
+    padding-bottom: 1.5vh;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
  }
 
 .bigContainer {
@@ -60,7 +69,7 @@
     top:0;
     height: 89vh;
     width: 50vw;
-    padding-left: 250px;
+    padding-left: 15vw;
 }
 
 .spotContainer {
@@ -75,8 +84,8 @@
 
 .element-container {
     position: relative;
-    height: 250px;
-    width: 550px;
+    height: 15vw;
+    width: 37vw;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
     border: none;
@@ -102,7 +111,7 @@
     position: absolute;
     top: 65%;
     left: 5%;
-    font-size: 20px;
+    font-size: 1.5vw;
     color: white;
     text-align: left;
     /* white-space: nowrap;
@@ -114,7 +123,7 @@
     position: absolute;
     top: 80%;
     left: 5%;
-    font-size: 15px;
+    font-size: 1vw;
     color: white;
     text-align: left;
     /* white-space: nowrap;
@@ -139,6 +148,7 @@
 }
 
 .errorText {
+    margin-top: 5vh;
     text-align: center;
 }
 
@@ -154,11 +164,9 @@
 }
 
 .spotInfoContainer {
-    margin-left: 20px;
+    margin-left: 1.5vw;
     display: inline-block;
 }
-
-
 
 #spotTitleText {
     font-size: 30px;
@@ -168,7 +176,7 @@
     overflow-y: auto;
     overflow-x:hidden;
     height: auto;
-    width: 85%;
+    width: 37vw;
     border-radius: 10px;
     background-color: rgb(196, 196, 196);
     padding: 10px;
@@ -202,8 +210,8 @@
 
 .spotImage {
     display: block;
-    height: 350px;
-    width: 600px;
+    height: 50vh;
+    width: 39vw;
     margin-bottom: 5px;
     animation: fadeIn 0.5s ease-in-out forwards;
     box-shadow: 2px 2px 10px #555555;
@@ -280,3 +288,181 @@
     border-radius: 10px;
     border: 3px solid #ffffff;
   }
+
+  @media only screen and (max-width: 700px) {
+    .element-text {
+        position: absolute;
+        top: 65%;
+        left: 5%;
+        font-size: 4vw;
+        color: white;
+        text-align: left;
+        /* white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; */    
+    }
+
+    .element-textAddress {
+        position: absolute;
+        top: 80%;
+        left: 5%;
+        font-size: 2.5vw;
+        color: white;
+        text-align: left;
+        /* white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; */    
+    }
+
+
+    .leaflet-container {
+        flex: 1;
+        top:0;
+        height: 50vh;
+        width: 100vw;
+        padding-left: 15vw;
+    }
+
+    .spotContainer {
+        display: grid;
+        place-items: center;
+        flex: 1;
+        overflow-y: auto;
+        height: auto;
+        width: 100%;
+        animation: fadeIn 0.5s ease-in-out forwards;
+    }
+
+    .bigContainer {
+        display: inline-block;
+    }
+
+    .element-container {
+        position: relative;
+        height: 40vw;
+        width: 85vw;
+        border-radius: 5px;
+        background-color: rgb(255, 255, 255);
+        border: none;
+        animation: fadeIn 0.5s ease-in-out forwards;
+        overflow: hidden;
+        margin-bottom: 10px;
+        box-shadow: 2px 2px 10px #555555;
+    }
+
+    .spotImage {
+        display: block;
+        height: 30vh;
+        width: 89vw;
+        animation: fadeIn 0.5s ease-in-out forwards;
+        box-shadow: 5px 5px 10px #3e3e3e;
+        object-fit: cover;
+    }
+
+    .spotInfoContainer {
+        margin-left: 5vw;
+        display: inline-block;
+    }
+
+    .spotWindow {  
+        display: grid;
+        place-items: left;
+        flex: 1;
+        overflow-y: auto;
+        height: 89vh;
+        width: 100%;
+        animation: fadeIn 0.5s ease-in-out forwards;
+        
+    }
+    
+    #spotTitleText {
+        font-size: 7vw;
+        width: 90vw;
+    }
+    
+    .spotDescription {
+        overflow-y: auto;
+        overflow-x:hidden;
+        height: auto;
+        width: 90vw;
+        border-radius: 10px;
+        background-color: rgb(196, 196, 196);
+        padding: 10px;
+    }
+
+    #spotAddress {
+        margin-top: 2vh;
+        width: 90vw;
+    }
+
+    #spotInfo {
+        margin-top: 1vh;
+        width: 1vw;
+    }
+
+    #backButton {
+        border: none;
+        border-radius: 6px;
+        background-color: rgb(0, 0, 0);
+        color:white;
+        height: 50px;
+        width: 300px;
+        margin-top: 2vh;
+        margin-left: 6.5vw;
+}
+
+    .nav {
+        background-color: black;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1rem;
+        height: 7vh;
+        text-overflow: auto;
+    }
+
+    .nav ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        gap: 1.5vw;
+        display:flex;
+    }
+
+    .loginButton {
+        color: white;
+        border: none;
+        border-radius: 10px;
+        background-color: green;
+        padding-top: 1.25vh;
+        padding-bottom: 1.25vh;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        font-size: 2vw;
+    }
+    
+    .regButton {
+        color: white;
+        border: none;
+        border-radius: 10px;
+        background-color: gray;
+        padding-top: 1.25vh;
+        padding-bottom: 1.25vh;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        font-size: 2vw;
+    }
+    
+    .submitButton {
+        color: black;
+        border: none;
+        border-radius: 10px;
+        background-color: white;
+        padding-top: 1.25vh;
+        padding-bottom: 1.25vh;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        font-size: 2vw;
+     }
+}

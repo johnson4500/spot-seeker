@@ -53,6 +53,7 @@ export default function Submit() {
   
     const prevStep = () => {
       setStep(step - 1);
+      document.getElementById('map2').style.height = '50vh'
     };
 
     const handleSubmit = (e) => {
@@ -160,7 +161,7 @@ export default function Submit() {
         console.log(result.data)
         let addressData = result.data.address
         setAddress((addressData.house_number ? addressData.house_number + " " : "") + addressData.road + ", " + addressData.city
-        + ", " + addressData.state + ", " + addressData.country)
+        + ", " + addressData.state + " " + addressData.postcode + ", " + addressData.country)
       })
       .catch(error => {
         console.log(error)})
@@ -212,13 +213,13 @@ export default function Submit() {
               <div>
                 {lat != null ? (
                   <div>
-                  <p className = 'fade-in'>Your coordinates are {lat}, {long}</p>
+                  <p className = 'fade-in selectText'>Your coordinates are {lat}, {long}</p>
                   </div>
                   ) : (
                     <div></div>
                 )}
                 {address != null ? (
-                  <p className = 'fade-in'>The address of this location is {address}</p>
+                  <p className = 'fade-in selectText'>The address of this location is {address}</p>
                 ) : (
                   <div></div>
                 )}
@@ -297,6 +298,10 @@ export default function Submit() {
                       <br></br>
                       <button id = "logButt" type = "submit" className = "buttons">
                           Submit!
+                      </button>
+                      <br></br>
+                      <button id = "backButt" onClick = {prevStep} className = "buttons">
+                          Back
                       </button>
                   </form>
               </div>

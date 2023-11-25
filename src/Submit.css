@@ -9,18 +9,23 @@
 
 .leaflet-geosearch-bar{
     position: fixed;
-    right: 250px;
+    right: 30vh;
     z-index: 1000; /* Ensure the search bar is above other elements */
 }
 
 .leaflet-geosearch-bar form{
-    width: 175%;
+    width: 150%;
   }
 
 #map2 {
     height: 50vh;
     width: 60vw;
     left: 20vw;
+}
+
+#backButt {
+    color: white;
+    background-color: grey;
 }
 
 #text2 {
@@ -77,4 +82,36 @@
     display: inline-block;
     margin-right: 10px;
     box-shadow: 2px 2px 10px #555555;
+}
+
+@media only screen and (max-width: 700px) {
+    #text2 {
+        padding: 2vw;
+        padding-bottom: 0;
+        padding-top: 0;
+        font-size: 3vw;
+    }
+    #map2 {
+        height: 50vh;
+        width: 90vw;
+        left: 5vw;
+    }
+
+    .leaflet-geosearch-bar{
+        position: fixed;
+        right: 15vw;
+        z-index: 1000; /* Ensure the search bar is above other elements */
+    }
+
+    .leaflet-geosearch-bar form{
+        width: 150%;
+      }
+
+    .selectText {
+        font-size: 3vw;
+        padding: 5vw;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
 }
