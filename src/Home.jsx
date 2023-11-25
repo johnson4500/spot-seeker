@@ -12,11 +12,11 @@ import { onAuthStateChanged } from 'firebase/auth'
 import SpotWindow from './SpotWindow'
 
 
-
 export default function Home() {
   let testbool = true;
   const spots = []
   const markers = []
+  const [position, setPosition] = useState({latitude: 43.747474670410156, longitude: -79.49417877197266});
   const [spotID, setSpotID] = useState(0)
   const [isSpotClicked, setIsSpotClicked] = useState(false)
   const [markersData, setMarkersData] = useState()
@@ -30,16 +30,18 @@ export default function Home() {
   let autoResize = () => {
     if (window.innerWidth < 700 ){
         setIsMobileWidth(true)
+        
     } else {
         setIsMobileWidth(false)
     }
 }
 
-useEffect(() => {
-    window.addEventListener('resize', autoResize)
-    autoResize();  
-}, [])
+  useEffect(() => {
+      window.addEventListener('resize', autoResize)
+      autoResize();  
+  }, [])
 
+  
 
   function showNextImage(length) {
     if (currentIndex < length - 1){
@@ -56,6 +58,14 @@ useEffect(() => {
       setCurrentIndex(length - 1);
     }
   };
+
+  function hideMap() {
+    document.getElementById('mapcontainuh').style.display = 'none'
+  }
+
+  function showMap() {
+    document.getElementById('mapcontainuh').style.display = 'block'
+  }
 
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
@@ -88,11 +98,14 @@ useEffect(() => {
     // setSpotID(obj)
     setIsSpotClicked(true)
     setSpotID(obj.currentTarget.id)
+    setPosition({latitude: markersData[obj.currentTarget.id].lat, longitude: markersData[obj.currentTarget.id].long})
   }
 
   function markerClick(id) {
     setIsSpotClicked(true)
     setSpotID(id)
+    setPosition({latitude: markersData[id].lat, longitude: markersData[id].long})
+    
   }
 
   function spotClick() {
@@ -104,85 +117,56 @@ useEffect(() => {
     iconSize: [64, 64]
   })
 
+  function SetViewOnClick() {
+    const map = useMap()
+      map.setView([position.latitude, position.longitude])
+    return null
+  }
+
   return (
     <Fragment>
-      <Helmet>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-      </Helmet>
       <NavBar></NavBar>
       <div className = 'bigContainer'>
-      
-      {!isSpotClicked ? (
-        <MapContainer center={[43.747474670410156, -79.49417877197266]} zoom={12} scrollWheelZoom={false}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {markersData ? (
-            <div>
-            {markersData.map((spot, i) => (
-              <Marker 
-                id = {i} 
-                position = {[spot.lat, spot.long]} 
-                icon = {customIcon}
-                eventHandlers={{
-                  click: (e) => {
-                    console.log('marker clicked', e)
-                    markerClick(e.target.options.id)
-                  }}}
-              >
-                <Popup>
-                  {spot.spotDescription}
-                </Popup>
-              </Marker>
-              ))
-            }
-            </div> 
-          ):(
-            <div></div>
-          )}
-        </MapContainer>
-      ):(
-        <>
-        {!isMobileWidth ? (
-          <MapContainer center={[43.747474670410156, -79.49417877197266]} zoom={12} scrollWheelZoom={false}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {markersData ? (
-            <div>
-            {markersData.map((spot, i) => (
-              <Marker 
-                id = {i} 
-                position = {[spot.lat, spot.long]} 
-                icon = {customIcon}
-                eventHandlers={{
-                  click: (e) => {
-                    console.log('marker clicked', e)
-                    markerClick(e.target.options.id)
-                  }}}
-              >
-                <Popup>
-                  {spot.spotDescription}
-                </Popup>
-              </Marker>
-              ))
-            }
-            </div> 
-          ):(
-            <div></div>
-          )}
-        </MapContainer>
+      <MapContainer id = "mapcontainuh" center={[position.latitude, position.longitude]} zoom={12} scrollWheelZoom={false}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {markersData ? (
+          <div>
+          {markersData.map((spot, i) => (
+            <Marker
+              id = {i} 
+              position = {[spot.lat, spot.long]} 
+              icon = {customIcon}
+              eventHandlers={{
+                click: (e) => {
+                  markerClick(e.target.options.id)
+                }
+              }}
+            >
+            </Marker>
+            ))
+          }
+          </div> 
         ):(
           <div></div>
         )}
-        </>
-      )}
-      
+        <SetViewOnClick/>
+      </MapContainer>
+
+        
 
       { isSpotClicked ? (
         <div  className = "spotWindow">
+        {isMobileWidth ? (
+          <>
+            {hideMap()}
+          </>
+        ):(
+          <></>
+        )}
+
         {markersData ? (
               <div className = "spotInfoContainer">
                 <br></br>
@@ -203,7 +187,7 @@ useEffect(() => {
                   <p id = "spotDescriptionText">{markersData[spotID].spotDescription}</p>
                 </div>
                 <br></br>
-                <button id = "backButton" onClick = {spotClick}> Back</button>
+                <button id = "backButton" onClick = {() => {spotClick(); showMap()}}> Back</button>
               </div>
         ) : (
           <div></div>

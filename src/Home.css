@@ -65,6 +65,7 @@
 }
 
 .leaflet-container {
+    display:block;
     flex: 1;
     top:0;
     height: 89vh;
