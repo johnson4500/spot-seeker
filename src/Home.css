@@ -92,7 +92,6 @@
     text-align: center;
     color: black;
     margin-top: 20px;
-    margin-bottom: 20px;
 }
 
 .overlay:hover {
@@ -101,7 +100,7 @@
 
 .element-text {
     position: absolute;
-    top: 60%;
+    top: 65%;
     left: 5%;
     font-size: 20px;
     color: white;
@@ -113,7 +112,7 @@
 
 .element-textAddress {
     position: absolute;
-    top: 75%;
+    top: 80%;
     left: 5%;
     font-size: 15px;
     color: white;
@@ -143,40 +142,122 @@
     text-align: center;
 }
 
-.spotWindow {
-    margin-left: 3vh;    
+.spotWindow {  
+    display: grid;
+    place-items: left;
+    flex: 1;
+    overflow-y: auto;
+    height: 89vh;
+    width: 100%;
     animation: fadeIn 0.5s ease-in-out forwards;
+    
 }
 
-.spotImage {
-    height: auto;
-    width: 80%;
-    margin-bottom: 5px;
-    margin-right: 20px;
-    animation: fadeIn 0.5s ease-in-out forwards;
+.spotInfoContainer {
+    margin-left: 20px;
+    display: inline-block;
 }
+
+
 
 #spotTitleText {
     font-size: 30px;
 }
 
+.spotDescription {
+    overflow-y: auto;
+    overflow-x:hidden;
+    height: auto;
+    width: 85%;
+    border-radius: 10px;
+    background-color: rgb(196, 196, 196);
+    padding: 10px;
+}
+
+#spotAddress {
+    margin-top: 10px;
+}
+
 #backButton {
     border: none;
-    border-radius: 5px;
-    background-color: green;
+    border-radius: 6px;
+    background-color: rgb(0, 0, 0);
     color:white;
     height: 50px;
     width: 300px;
     margin-top: 10px;
+    margin-bottom: 10px;
+    
 }
 
 #spotInfo {
     margin-top: 15px;
+    width: 645px;
 }
 
-#prevImageButton {
-    margin-right: 80%;
+.image-container {
+    position: relative;
+    display: inline-block;
+  }
+
+.spotImage {
+    display: block;
+    height: 350px;
+    width: 600px;
+    margin-bottom: 5px;
+    animation: fadeIn 0.5s ease-in-out forwards;
+    box-shadow: 2px 2px 10px #555555;
+    object-fit: cover;
 }
+
+/* #prevImageButton {
+    position: absolute;
+    top: 35%;
+    display: flex;
+}
+
+#nextImageButton {
+    position: absolute;
+    top: 15%;
+    display: flex;
+} */
+
+.imageContainer {
+    position: relative;
+    display: inline-block;
+  }
+
+.button-container {
+    position: absolute;
+    top: 40%;
+    display: flex;
+    align-items: center;
+  }
+
+  .button-container.left {
+    left: -5px;
+  }
+
+  .button-container.right {
+    right: -5px;
+  }
+
+  .button {
+    background-color: #4c4b4b;
+    opacity: 0.5;
+    color: #fff;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 10px;
+    width:50px;
+  }
+
+  .button:hover{
+    opacity: 0.7;
+  }
+
 
 /* ===== Scrollbar CSS ===== */
   /* Firefox */

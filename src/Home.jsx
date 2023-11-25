@@ -41,7 +41,6 @@ export default function Home() {
     } else {
       setCurrentIndex(length - 1);
     }
-    // console.log(markersData[spotID].uploadedImgURLs.length)
   };
 
   useEffect(() => {
@@ -72,7 +71,6 @@ export default function Home() {
       
   function getSpotContent(obj) {
     // setSpotID(obj)
-    console.log(obj.currentTarget.id);
     setTestBool(true)
     setSpotID(obj.currentTarget.id)
   }
@@ -95,7 +93,7 @@ export default function Home() {
     <Fragment>
       <NavBar></NavBar>
       <div className = 'bigContainer'>
-      <MapContainer center={[43.747474670410156, -79.49417877197266]} zoom={13} scrollWheelZoom={false}>
+      <MapContainer center={[43.747474670410156, -79.49417877197266]} zoom={12} scrollWheelZoom={false}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -126,26 +124,34 @@ export default function Home() {
       )}
       </MapContainer>
 
-      
       { testBool ? (
-      <div className = "spotContainer">
+        <div  className = "spotWindow">
         {markersData ? (
-          <div className = "spotWindow">
-          <br></br>
-          <img className = "spotImage" src = {markersData[spotID].uploadedImgURLs[currentIndex]}></img>
-          <br></br>
-          <button id = 'prevImageButton' onClick={() => showLastImage(markersData[spotID].uploadedImgURLs.length)}>&lt;</button>
-          <button onClick={() => showNextImage(markersData[spotID].uploadedImgURLs.length)}>&gt;</button>
-          <br></br>
-          <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
-          <p id = "spotInfo">Address: {markersData[spotID].spotAddress}</p>
-          <br></br>
-          <button id = "backButton" onClick = {boolChange}> Back</button>
-          </div>
+              <div className = "spotInfoContainer">
+                <br></br>
+                  <div className = "imageContainer">
+                    <img className = "spotImage" src = {markersData[spotID].uploadedImgURLs[currentIndex]}></img>
+                    <br></br>
+                    <div className = "button-container left">
+                    <button className = "button" onClick={() => showLastImage(markersData[spotID].uploadedImgURLs.length)}>&lt;</button>
+                    </div>
+                    <div className = "button-container right">
+                    <button className = "button" onClick={() => showNextImage(markersData[spotID].uploadedImgURLs.length)}>&gt;</button>
+                  </div>
+                </div>
+                <br></br>
+                <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
+                <p id = "spotAddress">Address: {markersData[spotID].spotAddress}</p>
+                <div className = "spotDescription">
+                  <p id = "spotDescriptionText">{markersData[spotID].spotDescription}</p>
+                </div>
+                <br></br>
+                <button id = "backButton" onClick = {boolChange}> Back</button>
+              </div>
         ) : (
           <div></div>
         )}
-        </div>  
+        </div>
       ):(
         <div className = "spotContainer">
             {markersData ? (
@@ -170,9 +176,8 @@ export default function Home() {
                 <p className = "errorText">Loading spots....</p>
               )
             }
-          </div>  
+          </div>
       )}
-      
       </div>
     </Fragment>
   )

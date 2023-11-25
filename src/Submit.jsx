@@ -22,7 +22,7 @@ export default function Submit() {
     const[lat, setLat] = useState()
     const[long, setLong] = useState()
     const[address, setAddress] = useState()
-    const[previewFiles, setPreviewFiles] = useState()
+    const[previewFiles, setPreviewFiles] = useState([])
     const[spotDescription, setSpotDescription] = useState()
     const[isAuthorized, setIsAuthorized] = useState(false)
     const[emailVerified, setEmailVerified] = useState(false)
@@ -32,7 +32,6 @@ export default function Submit() {
 
     useEffect(() => {
       auth.onAuthStateChanged((user) => {
-        console.log(user)
         if (user && user.emailVerified) {
           setIsAuthorized(true)
           setEmailVerified(true)
@@ -104,7 +103,12 @@ export default function Submit() {
   }
 
   function displayFiles(files) {
-    // setPreviewFiles(URL.createObjectURL(files));
+    let previewFilesArray = [];
+    for (let i = 0; i < files.length; i++) {
+      previewFilesArray[i] = URL.createObjectURL(files[i]);
+    }
+    
+    setPreviewFiles(previewFilesArray);
   }
 
   function mapLoad() {
@@ -256,23 +260,27 @@ export default function Submit() {
                       <br></br>       
                       <div>
                           <label htmlFor = "files">
-                          <strong>Image Path</strong>
+                          <strong>Upload Images</strong>
                           </label>
                           <br></br>
                           <input
                           className = "inputFields"
                           type = "file"
-                          placeholder = "Enter Image Link"
+                          placeholder = "Upload Images"
                           autoComplete = "off"
                           id = "image"
                           multiple
                           onChange = {(e) => {setImageUpload(e.target.files); displayFiles(e.target.files);}}/>
-                          <div className = "filePreviewContainer">
-                            <img src={previewFiles}/>
-                          </div>
-                          
+                          {previewFiles.length > 0 ? (
+                            <div className = "filePreviewContainer">
+                              {previewFiles.map((image, i) => (
+                                <img key = {i} id = "fileImage" src={previewFiles[i]}/>
+                              ))}
+                            </div>
+                          ):(
+                            <div></div>
+                          )}
                       </div>
-                      <br></br>
                       <div>
                           <label htmlFor = "spotDescription">
                           <strong>Description</strong>  
