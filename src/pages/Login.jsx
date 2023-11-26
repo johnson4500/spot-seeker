@@ -1,10 +1,9 @@
 import React, { Fragment } from 'react'
 import {useState} from 'react'
-import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
-import './Login.css'
-import NavBar from './NavBar'
-import { auth } from './firebaseconfig'
+import '../assets/Login.css'
+import NavBar from '../components/NavBar'
+import { auth } from '../firebaseconfig'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
 export default function Login() {

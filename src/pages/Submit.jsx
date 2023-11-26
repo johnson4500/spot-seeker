@@ -1,17 +1,17 @@
 import React, {useEffect, useState, Fragment} from 'react'
 import axios from 'axios';
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 import {useNavigate} from 'react-router-dom'
 import {Icon} from 'leaflet'
 import {MapContainer, TileLayer, Marker, useMap, Popup} from 'react-leaflet'
 import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch'
-import './Submit.css'
+import '../assets/Submit.css'
 import 'leaflet-geosearch/dist/geosearch.css'
 import {v4} from 'uuid'
 import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
 import {set, ref as dbRef, update} from 'firebase/database'
-import { auth, rtDB, imgDB } from './firebaseconfig';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { auth, rtDB, imgDB } from '../firebaseconfig';
+
 
 
 

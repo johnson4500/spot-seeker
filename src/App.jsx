@@ -1,11 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 import {HashRouter, Routes, Route} from 'react-router-dom'
-import Signup from './Signup'
-import Login from './Login'
-import Home from './Home'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
+import Home from './pages/Home'
 import Test from './Test'
-import Submit from './Submit'
+import Submit from './pages/Submit'
 
 function App() {
 

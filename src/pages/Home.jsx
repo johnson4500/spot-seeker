@@ -1,16 +1,14 @@
 import { MapContainer, TileLayer, Marker, useMap, Popup } from 'react-leaflet'
-import './Home.css'
+import '../assets/Home.css'
 import 'leaflet/dist/leaflet.css'
 import {Icon, imageOverlay} from 'leaflet'
 import {React, useState, useEffect, Fragment} from 'react'
 import { Helmet } from 'react-helmet'
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 import {ref, listAll, getDownloadURL} from 'firebase/storage'
 import {child, ref as dbRef, getDatabase, onValue} from 'firebase/database'
-import { imgDB, rtDB, auth } from './firebaseconfig'
+import { imgDB, rtDB, auth } from '../firebaseconfig'
 import { onAuthStateChanged } from 'firebase/auth'
-import SpotWindow from './SpotWindow'
-import L from 'leaflet'
 
 
 export default function Home() {
