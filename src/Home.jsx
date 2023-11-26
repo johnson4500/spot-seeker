@@ -10,12 +10,12 @@ import {child, ref as dbRef, getDatabase, onValue} from 'firebase/database'
 import { imgDB, rtDB, auth } from './firebaseconfig'
 import { onAuthStateChanged } from 'firebase/auth'
 import SpotWindow from './SpotWindow'
+import L from 'leaflet'
 
 
 export default function Home() {
   let testbool = true;
   const spots = []
-  const markers = []
   const [position, setPosition] = useState({latitude: 43.747474670410156, longitude: -79.49417877197266});
   const [spotID, setSpotID] = useState(0)
   const [isSpotClicked, setIsSpotClicked] = useState(false)
@@ -93,7 +93,6 @@ export default function Home() {
       })
   }, [])
 
-      
   function getSpotContent(obj) {
     // setSpotID(obj)
     setIsSpotClicked(true)
@@ -105,7 +104,6 @@ export default function Home() {
     setIsSpotClicked(true)
     setSpotID(id)
     setPosition({latitude: markersData[id].lat, longitude: markersData[id].long})
-    
   }
 
   function spotClick() {
@@ -119,7 +117,11 @@ export default function Home() {
 
   function SetViewOnClick() {
     const map = useMap()
-      map.setView([position.latitude, position.longitude])
+    if (isSpotClicked) {
+      map.flyTo([position.latitude, position.longitude], 15)
+    } else {
+      map.flyTo([position.latitude, position.longitude], 10)
+    }
     return null
   }
 
@@ -132,9 +134,11 @@ export default function Home() {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <SetViewOnClick/>
         {markersData ? (
           <div>
           {markersData.map((spot, i) => (
+            <>
             <Marker
               id = {i} 
               position = {[spot.lat, spot.long]} 
@@ -144,24 +148,24 @@ export default function Home() {
                   markerClick(e.target.options.id)
                 }
               }}
-            >
+            > 
             </Marker>
+            
+            </>
             ))
           }
           </div> 
         ):(
           <div></div>
         )}
-        <SetViewOnClick/>
       </MapContainer>
 
         
-
       { isSpotClicked ? (
         <div  className = "spotWindow">
         {isMobileWidth ? (
           <>
-            {hideMap()}
+            {/* {hideMap()} */}
           </>
         ):(
           <></>
@@ -199,6 +203,7 @@ export default function Home() {
               <div className = "spotContainer">
                 <h2 id = "text1" >View Skate Spots!</h2>
                 {markersData.map((data, i) => (
+                  <a href = "#">
                   <div id = {i} className="element-container" onClick={getSpotContent}>
                     <img src = {data.uploadedImgURLs[0]} className = 'image'/>  
                     <div className="overlay">
@@ -210,6 +215,7 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
+                  </a>
                 )
                 )}
               </div>

@@ -319,7 +319,7 @@
     .leaflet-container {
         flex: 1;
         top:0;
-        height: 50vh;
+        height: 40vh;
         width: 100vw;
         padding-left: 15vw;
     }
