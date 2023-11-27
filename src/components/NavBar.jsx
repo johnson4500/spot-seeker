@@ -41,20 +41,21 @@ export default function navBar() {
         <ul>
           <li>
             <a href = "/skateSpots/#submit">
-              <button className = "submitButton">Submit a Spot</button>
+              <button className = "navButtons" id = "submitButton">Submit a Spot</button>
             </a>
           </li>
           <li>
         {authUser !== null ? (<div>
-              <button onClick = {userSignOut} className = "submitButton">Logout</button>  
+
+              <button className = "navButtons" onClick = {userSignOut} id = "submitButton">Logout</button>  
               </div>
             ) : (
                <ul>
             <a href = "/skateSpots/#login">
-              <button className = "loginButton">Login</button>
+              <button className = "navButtons" id = "loginButton">Login</button>
             </a>
             <a href = "/skateSpots/#register">
-            <button className = "regButton">Register</button>
+            <button className = "navButtons" id = "regButton">Register</button>
             </a>
             </ul>
                 )

@@ -7,14 +7,25 @@
 }
 
 
+
 .inputFields {
     width: 300px;
     padding: 7px;
     border: none;
     background-color:rgb(241, 241, 241);
     border-radius: 10px;
-    
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
+
+.invalid {
+    width: 300px;
+    padding: 7px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(246, 140, 140);
+    border: 5;
+}
+
 
 .buttons {
     border-radius: 10px;

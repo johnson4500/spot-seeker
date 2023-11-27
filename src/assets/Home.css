@@ -27,7 +27,7 @@
     display:flex;
 }
 
-.loginButton {
+#loginButton {
     color: white;
     border: none;
     border-radius: 10px;
@@ -38,7 +38,7 @@
     padding-right: 1.5vw;
 }
 
-.regButton {
+#regButton {
     color: white;
     border: none;
     border-radius: 10px;
@@ -49,7 +49,7 @@
     padding-right: 1.5vw;
 }
 
-.submitButton {
+#submitButton {
     color: black;
     border: none;
     border-radius: 10px;
@@ -431,7 +431,7 @@
         display:flex;
     }
 
-    .loginButton {
+    #loginButton {
         color: white;
         border: none;
         border-radius: 10px;
@@ -443,7 +443,7 @@
         font-size: 2vw;
     }
     
-    .regButton {
+    #regButton {
         color: white;
         border: none;
         border-radius: 10px;
@@ -455,7 +455,7 @@
         font-size: 2vw;
     }
     
-    .submitButton {
+    #submitButton {
         color: black;
         border: none;
         border-radius: 10px;

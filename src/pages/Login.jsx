@@ -9,6 +9,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 export default function Login() {
     const[email, setEmail] = useState()
     const[password, setPassword] = useState()
+    const[validLogin, setValidLogin] = useState('inputFields')
     const navigate = useNavigate()
   
     const handleSubmit = (e) => {
@@ -20,6 +21,8 @@ export default function Login() {
             navigate('/')
         }).catch((error) => {
             console.log(error)
+            setValidLogin('invalid')
+
         })
     }
     
@@ -40,13 +43,12 @@ export default function Login() {
                         </label>
                         <br></br>
                         <input
-                        className = "inputFields"
+                        className = {validLogin}
                          type = "email"
                          placeholder = "Enter Email"
                          autoComplete = "off"
                          name = "email"
                          onChange = {(e) => setEmail(e.target.value)}/>
-                         
                     </div>
                     <br></br>
                     <div>
@@ -55,14 +57,19 @@ export default function Login() {
                         </label>
                         <br></br>
                         <input
-                        className = "inputFields"
                          type = "password"
                          placeholder = "Enter Password"
                          autoComplete = "off"
                          name = "password"
+                         className = {validLogin}
                          onChange = {(e) => setPassword(e.target.value)}/>
                     </div>
                     <br></br>
+                    {validLogin == 'invalid' ? (
+                        <div>Invalid email and/or password!</div>
+                    ) : (
+                        <div></div>
+                    )}
                     <button id = 'logButt' className = 'buttons' type = "submit">
                         Login
                     </button>

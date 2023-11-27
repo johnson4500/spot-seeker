@@ -68,6 +68,7 @@ export default function Signup() {
                          placeholder = "Enter Password"
                          autoComplete = "off"
                          name = "password"
+                         minlength= "6"
                          onChange = {(e) => setPassword(e.target.value)}/>
                     </div>
                     <br></br>
