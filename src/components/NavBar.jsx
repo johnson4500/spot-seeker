@@ -37,7 +37,7 @@ export default function navBar() {
 
   return (
     <nav className = 'nav'>
-        <a href = '/skateSpots/' className = 'titleSite'>skateSpots!</a>
+        <a href = '/skateSpots/' className = 'titleSite'>Spot Seeker</a>
         <ul>
           <li>
             <a href = "/skateSpots/#submit">
