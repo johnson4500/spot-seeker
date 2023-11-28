@@ -1,3 +1,7 @@
+.imageContainer button {
+    border-radius: 0;
+}
+
 .nav {
     background-color: black;
     color: white;
@@ -220,7 +224,6 @@
     width: 39vw;
     margin-bottom: 5px;
     animation: fadeIn 0.5s ease-in-out forwards;
-    box-shadow: 2px 2px 10px #555555;
     object-fit: cover;
 }
 
@@ -241,31 +244,8 @@
     display: inline-block;
   }
 
-.button-container {
-    position: absolute;
-    top: 40%;
-    display: flex;
-    align-items: center;
-  }
-
-  .button-container.left {
-    left: -5px;
-  }
-
-  .button-container.right {
-    right: -5px;
-  }
-
   .button {
-    background-color: #4c4b4b;
-    opacity: 0.5;
-    color: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 10px;
-    width:50px;
+    font-size: 2vw;
   }
 
   .button:hover{

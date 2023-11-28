@@ -9,7 +9,8 @@ import {ref, listAll, getDownloadURL} from 'firebase/storage'
 import {child, ref as dbRef, getDatabase, onValue} from 'firebase/database'
 import { imgDB, rtDB, auth } from '../firebaseconfig'
 import { onAuthStateChanged } from 'firebase/auth'
-
+import { Slide } from 'react-slideshow-image'
+import 'react-slideshow-image/dist/styles.css'
 
 export default function Home() {
   const spots = []
@@ -66,14 +67,13 @@ export default function Home() {
       setMarkersData(spots)
     })
   
-    listAll(imageListRef).then((response) => {
-        response.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            setImageList((prev) => [...prev, url])
-          })
-        })
-        
-      })
+    // listAll(imageListRef).then((response) => {
+    //     response.items.forEach((item) => {
+    //       getDownloadURL(item).then((url) => {
+    //         setImageList((prev) => [...prev, url])
+    //       })
+    //     })
+    //   })
   }, [])
 
   function getSpotContent(obj) {
@@ -104,18 +104,27 @@ export default function Home() {
       map.flyTo([position.latitude, position.longitude], 18,
       {
         animate: true,
-        duration: 3
+        duration: 2
       }) 
     } else {
-      map.flyTo([position.latitude, position.longitude], 10,
-        {
-          animate: true,
-          duration: 1.5
-        }
-      )   
+      map.flyTo([position.latitude, position.longitude], 10)
     }
     return null
   }
+
+  const buttonStyle = {
+    width: "3vw",
+    height: "3vw",
+    background: 'none',
+    border: '0px',
+};
+
+const properties = {
+    canSwipe: true,
+    transitionDuration: 500,
+    prevArrow: <button className = 'button' style={{ ...buttonStyle }}>&lt;</button>,
+    nextArrow: <button className = 'button' style={{ ...buttonStyle }}>&gt;</button>
+}
 
   return (
     <Fragment>
@@ -167,14 +176,17 @@ export default function Home() {
               <div className = "spotInfoContainer">
                 <br></br>
                   <div className = "imageContainer">
-                    <img className = "spotImage" src = {markersData[spotID].uploadedImgURLs[currentIndex]}></img>
                     <br></br>
-                    <div className = "button-container left">
-                    <button className = "button" onClick={() => showLastImage(markersData[spotID].uploadedImgURLs.length)}>&lt;</button>
+                    <div className= 'spotImage'>
+                      <Slide {...properties}>
+                        {markersData[spotID].uploadedImgURLs.map((data, i) => (
+                          <div key = {i + "spotImage"}>
+                            <img draggable="false" className = "spotImage" src = {data}></img>
+                          </div>
+                          )
+                        )}
+                      </Slide>
                     </div>
-                    <div className = "button-container right">
-                    <button className = "button" onClick={() => showNextImage(markersData[spotID].uploadedImgURLs.length)}>&gt;</button>
-                  </div>
                 </div>
                 <br></br>
                 <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
