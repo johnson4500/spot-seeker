@@ -9,6 +9,10 @@
     text-overflow: auto;
 }
 
+.navButtons:hover {
+    filter: brightness(0.9);
+}
+
 
 .titleSite {
     font-size: 2.5vmax;
@@ -102,6 +106,7 @@
     text-align: center;
     color: black;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .overlay:hover {

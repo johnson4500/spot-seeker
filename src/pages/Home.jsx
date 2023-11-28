@@ -2,7 +2,7 @@ import { MapContainer, TileLayer, Marker, useMap, Popup } from 'react-leaflet'
 import '../assets/Home.css'
 import 'leaflet/dist/leaflet.css'
 import {Icon, imageOverlay} from 'leaflet'
-import {React, useState, useEffect, Fragment} from 'react'
+import {React, useState, useEffect, useCallback, Fragment} from 'react'
 import { Helmet } from 'react-helmet'
 import NavBar from '../components/NavBar'
 import {ref, listAll, getDownloadURL} from 'firebase/storage'
@@ -12,7 +12,6 @@ import { onAuthStateChanged } from 'firebase/auth'
 
 
 export default function Home() {
-  let testbool = true;
   const spots = []
   const [position, setPosition] = useState({latitude: 43.747474670410156, longitude: -79.49417877197266});
   const [spotID, setSpotID] = useState(0)
@@ -39,27 +38,13 @@ export default function Home() {
       autoResize();  
   }, [])
 
-  
+  const showNextImage = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex < markersData[spotID].uploadedImgURLs.length - 1 ? prevIndex + 1 : 0));
+  }, [markersData, spotID]);
 
-  function showNextImage(length) {
-    if (currentIndex < length - 1){
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(0);
-    }
-  };
-
-  function showLastImage(length) {
-    if (currentIndex > 0){
-      setCurrentIndex(currentIndex - 1);
-    } else {
-      setCurrentIndex(length - 1);
-    }
-  };
-
-  function hideMap() {
-    document.getElementById('mapcontainuh').style.display = 'none'
-  }
+  const showLastImage = useCallback(() => {
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : markersData[spotID].uploadedImgURLs.length - 1));
+  }, [markersData, spotID]);
 
   function showMap() {
     document.getElementById('mapcontainuh').style.display = 'block'
@@ -92,7 +77,6 @@ export default function Home() {
   }, [])
 
   function getSpotContent(obj) {
-    // setSpotID(obj)
     setIsSpotClicked(true)
     setSpotID(obj.currentTarget.id)
     setPosition({latitude: markersData[obj.currentTarget.id].lat, longitude: markersData[obj.currentTarget.id].long})
@@ -106,6 +90,7 @@ export default function Home() {
 
   function spotClick() {
     setIsSpotClicked(false)
+    setCurrentIndex(0)
   }
 
   const customIcon = new Icon({
@@ -116,9 +101,18 @@ export default function Home() {
   function SetViewOnClick() {
     const map = useMap()
     if (isSpotClicked) {
-      map.flyTo([position.latitude, position.longitude], 15)
+      map.flyTo([position.latitude, position.longitude], 18,
+      {
+        animate: true,
+        duration: 3
+      }) 
     } else {
-      map.flyTo([position.latitude, position.longitude], 10)
+      map.flyTo([position.latitude, position.longitude], 10,
+        {
+          animate: true,
+          duration: 1.5
+        }
+      )   
     }
     return null
   }
