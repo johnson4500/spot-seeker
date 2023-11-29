@@ -18,7 +18,6 @@ export default function Home() {
   const [spotID, setSpotID] = useState(0)
   const [isSpotClicked, setIsSpotClicked] = useState(false)
   const [markersData, setMarkersData] = useState()
-  const [imageList, setImageList] = useState([])
   const [authUser, setAuthUser] = useState(null)
   const imageListRef = ref(imgDB, 'images/')
   const databaseRef = dbRef(rtDB, 'spots/')
@@ -39,14 +38,6 @@ export default function Home() {
       autoResize();  
   }, [])
 
-  const showNextImage = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex < markersData[spotID].uploadedImgURLs.length - 1 ? prevIndex + 1 : 0));
-  }, [markersData, spotID]);
-
-  const showLastImage = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : markersData[spotID].uploadedImgURLs.length - 1));
-  }, [markersData, spotID]);
-
   function showMap() {
     document.getElementById('mapcontainuh').style.display = 'block'
   }
@@ -66,14 +57,6 @@ export default function Home() {
       })
       setMarkersData(spots)
     })
-  
-    // listAll(imageListRef).then((response) => {
-    //     response.items.forEach((item) => {
-    //       getDownloadURL(item).then((url) => {
-    //         setImageList((prev) => [...prev, url])
-    //       })
-    //     })
-    //   })
   }, [])
 
   function getSpotContent(obj) {
@@ -107,7 +90,10 @@ export default function Home() {
         duration: 2
       }) 
     } else {
-      map.flyTo([position.latitude, position.longitude], 10)
+      map.flyTo([position.latitude, position.longitude], 10, {
+        animate: true,
+        duration: 2 
+      })
     }
     return null
   }
