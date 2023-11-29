@@ -12,9 +12,6 @@ import {getDownloadURL, ref, uploadBytes} from 'firebase/storage'
 import {set, ref as dbRef, update} from 'firebase/database'
 import { auth, rtDB, imgDB } from '../firebaseconfig';
 
-
-
-
 export default function Submit() {
     const [step, setStep] = useState(1);
     const navigate = useNavigate()
