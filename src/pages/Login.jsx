@@ -74,7 +74,7 @@ export default function Login() {
                         Login
                     </button>
                 </form>
-                <a href = '/skateSpots/#register'>
+                <a href = '/spot-seeker/#register'>
                     <button className = 'buttons' id = 'regButt'>Register</button>
                 </a>
             </div>

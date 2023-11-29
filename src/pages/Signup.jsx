@@ -8,13 +8,12 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/
 
 
 export default function Signup() {
-    // const[name, setName] = useState()
     const[email, setEmail] = useState()
     const[password, setPassword] = useState()
     const navigate = useNavigate()
 
     const actionCodeSettings = {
-        url: 'https://johnson4500.github.io/skateSpots/',
+        url: 'https://johnson4500.github.io/spot-seeker/',
         handleCodeInApp: true
     }
 
@@ -76,7 +75,7 @@ export default function Signup() {
                         Register
                     </button>
                 </form>
-                <a href = "/skateSpots/#login">
+                <a href = "/spot-seeker/#login">
                     <button id = "regButt" className = "buttons">Already Have an Account</button>
                 </a>
             </div>
