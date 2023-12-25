@@ -1,3 +1,5 @@
+import { SpotContainer } from '../components/SpotContainer';
+import { SpotInfoContainer } from '../components/SpotInfoContainer';
 import { MapContainer, TileLayer, Marker, useMap, Popup } from 'react-leaflet'
 import '../assets/Home.css'
 import 'leaflet/dist/leaflet.css'
@@ -137,7 +139,6 @@ const properties = {
               }}
             > 
             </Marker>
-            
             </>
             ))
           }
@@ -147,68 +148,18 @@ const properties = {
         )}
       </MapContainer>
 
-        
       { isSpotClicked ? (
         <div  className = "spotWindow">
-        {isMobileWidth ? (
-          <>
-            {/* {hideMap()} */}
-          </>
-        ):(
-          <></>
-        )}
-
         {markersData ? (
-              <div className = "spotInfoContainer">
-                <br></br>
-                  <div className = "imageContainer">
-                    <br></br>
-                    <div className= 'spotImage'>
-                      <Slide {...properties}>
-                        {markersData[spotID].uploadedImgURLs.map((data, i) => (
-                          <div key = {i + "spotImage"}>
-                            <img draggable="false" className = "spotImage" src = {data}></img>
-                          </div>
-                          )
-                        )}
-                      </Slide>
-                    </div>
-                </div>
-                <br></br>
-                <strong id = "spotTitleText">Spot Name: {markersData[spotID].spotName}</strong>
-                <p id = "spotAddress">Address: {markersData[spotID].spotAddress}</p>
-                <div className = "spotDescription">
-                  <p id = "spotDescriptionText">{markersData[spotID].spotDescription}</p>
-                </div>
-                <br></br>
-                <button id = "backButton" onClick = {() => {spotClick(); showMap()}}> Back</button>
-              </div>
+              <SpotInfoContainer   properties={properties} spotID={spotID} markersData={markersData} spotClick={spotClick} showMap={showMap}  />
         ) : (
-          <div></div>
+          null
         )}
         </div>
       ):(
         <div className = "spotContainer">
             {markersData ? (
-              <div className = "spotContainer">
-                <h2 id = "text1" >View Skate Spots!</h2>
-                {markersData.map((data, i) => (
-                  <a href = "#">
-                  <div id = {i} className="element-container" onClick={getSpotContent}>
-                    <img src = {data.uploadedImgURLs[0]} className = 'image'/>  
-                    <div className="overlay">
-                      <div className = "element-text">
-                      {markersData[i].spotName}
-                      </div>
-                      <div className = "element-textAddress">
-                        {markersData[i].spotAddress}
-                      </div>
-                    </div>
-                  </div>
-                  </a>
-                )
-                )}
-              </div>
+              <SpotContainer  markersData={markersData} getSpotContent={getSpotContent}  />
               ) : (
                 <p className = "errorText">Loading spots....</p>
               )
