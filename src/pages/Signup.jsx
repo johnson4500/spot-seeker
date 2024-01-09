@@ -33,11 +33,11 @@ export default function Signup() {
 
     return (
         <Fragment>
-            <NavBar></NavBar>
+        <NavBar></NavBar>
         <div>
             <div className = "container">
-            <br></br> 
-            <br></br> 
+                <br></br> 
+                <br></br> 
                 <h2 id = 'topText'>Register</h2>
                 <br></br>
                 <form onSubmit = {handleSubmit}>
