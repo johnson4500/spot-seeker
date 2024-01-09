@@ -25,6 +25,8 @@ export default function Home() {
   const databaseRef = dbRef(rtDB, 'spots/')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isMobileWidth, setIsMobileWidth] = useState(false)
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredData, setFilteredData] = useState();
 
   let autoResize = () => {
     if (window.innerWidth < 700 ){
@@ -58,19 +60,20 @@ export default function Home() {
         spots.push(childSnapShot.val())
       })
       setMarkersData(spots)
+      setFilteredData(spots)
     })
   }, [])
 
   function getSpotContent(obj) {
     setIsSpotClicked(true)
     setSpotID(obj.currentTarget.id)
-    setPosition({latitude: markersData[obj.currentTarget.id].lat, longitude: markersData[obj.currentTarget.id].long})
+    setPosition({latitude: filteredData[obj.currentTarget.id].lat, longitude: filteredData[obj.currentTarget.id].long})
   }
 
   function markerClick(id) {
     setIsSpotClicked(true)
     setSpotID(id)
-    setPosition({latitude: markersData[id].lat, longitude: markersData[id].long})
+    setPosition({latitude: filteredData[id].lat, longitude: filteredData[id].long})
   }
 
   function spotClick() {
@@ -100,6 +103,14 @@ export default function Home() {
     return null
   }
 
+  const handleSearchInput = (e) => {
+    const inputValue = e.target.value;
+    setSearchInput(inputValue);
+    setFilteredData(prevData => markersData.filter(element =>
+      element.spotName.toLowerCase().includes(inputValue.toLowerCase()) || element.spotName.toLowerCase().includes(inputValue.toLowerCase())
+    )); 
+  }
+
   const buttonStyle = {
     width: "3vw",
     height: "3vw",
@@ -109,7 +120,7 @@ export default function Home() {
 
 const properties = {
     canSwipe: true,
-    transitionDuration: 500,
+    transitionDuration: 100,
     prevArrow: <button className = 'button' style={{ ...buttonStyle }}>&lt;</button>,
     nextArrow: <button className = 'button' style={{ ...buttonStyle }}>&gt;</button>
 }
@@ -118,15 +129,16 @@ const properties = {
     <Fragment>
       <NavBar></NavBar>
       <div className = 'bigContainer'>
-      <MapContainer id = "mapcontainuh" center={[position.latitude, position.longitude]} zoom={12} scrollWheelZoom={false}>
+      {markersData ? (
+        <MapContainer id = "mapcontainuh" center={[position.latitude, position.longitude]} zoom={12} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <SetViewOnClick/>
-        {markersData ? (
+        {filteredData ? (
           <div>
-          {markersData.map((spot, i) => (
+          {filteredData.map((spot, i) => (
             <>
             <Marker
               id = {i} 
@@ -137,34 +149,36 @@ const properties = {
                   markerClick(e.target.options.id)
                 }
               }}
-            > 
-            </Marker>
+            /> 
             </>
             ))
           }
           </div> 
         ):(
-          <div></div>
+          <></>
         )}
       </MapContainer>
-
-      { isSpotClicked ? (
-        <div  className = "spotWindow">
-        {markersData ? (
-              <SpotInfoContainer   properties={properties} spotID={spotID} markersData={markersData} spotClick={spotClick} showMap={showMap}  />
-        ) : (
-          null
+      ):(
+        null
         )}
+      
+      { isSpotClicked ? (
+        <div className = "spotWindow">
+          {markersData ? (
+                <SpotInfoContainer properties={properties} spotID={spotID} markersData={markersData} spotClick={spotClick} showMap={showMap} filteredData={filteredData}/>
+          ) : (
+            <></>
+          )}
         </div>
       ):(
-        <div className = "spotContainer">
-            {markersData ? (
-              <SpotContainer  markersData={markersData} getSpotContent={getSpotContent}  />
-              ) : (
-                <p className = "errorText">Loading spots....</p>
-              )
-            }
-          </div>
+        <>
+        {markersData ? (
+          <SpotContainer  markersData={markersData} getSpotContent={getSpotContent} setSearchInput = {setSearchInput} searchInput = {searchInput} handleSearchInput={handleSearchInput} filteredData={filteredData}/>
+          ) : (
+            null
+          )
+        }
+        </>
       )}
       </div>
     </Fragment>
