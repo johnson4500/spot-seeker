@@ -37,31 +37,33 @@ export default function navBar() {
 
   return (
     <nav className = 'nav'>
+        <div>
         <a href = '/spot-seeker/' className = 'titleSite'>Spot Seeker</a>
-        <ul>
-          <li>
-            <a href = "/spot-seeker/#submit">
-              <button className = "navButtons" id = "submitButton">Submit a Spot</button>
-            </a>
-          </li>
-          <li>
-        {authUser !== null ? (<div>
-
-              <button className = "navButtons" onClick = {userSignOut} id = "submitButton">Logout</button>  
+        <img className = "board" src = "src\assets\board.png"></img>
+      </div>
+      <ul>
+        <li>
+          <a href = "/spot-seeker/#submit">
+            <button className = "navButtons" id = "submitButton">Submit a Spot</button>
+          </a>
+        </li>
+        <li>
+          {authUser !== null ? (<div>
+            <button className = "navButtons" onClick = {userSignOut} id = "submitButton">Logout</button>  
               </div>
             ) : (
-               <ul>
-            <a href = "/spot-seeker/#login">
-              <button className = "navButtons" id = "loginButton">Login</button>
-            </a>
-            <a href = "/spot-seeker/#register">
-            <button className = "navButtons" id = "regButton">Register</button>
-            </a>
-            </ul>
-                )
-            }
-          </li>
-        </ul>
-      </nav>
+              <ul>
+                <a href = "/spot-seeker/#login">
+                  <button className = "navButtons" id = "loginButton">Login</button>
+                </a>
+                <a href = "/spot-seeker/#register">
+                  <button className = "navButtons" id = "regButton">Register</button>
+                </a>
+              </ul>
+            )
+          }
+        </li>
+      </ul>
+    </nav>
   )
 }
