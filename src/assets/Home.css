@@ -89,10 +89,12 @@
     display: grid;
     place-items: center;
     flex: 1;
-    overflow-y: auto;
+    overflow-y: scroll;
     height: 89vh;
     width: 100%;
     animation: fadeIn 0.5s ease-in-out forwards;
+    border-left: 2.5px solid black;
+
     
 }
 
@@ -170,20 +172,23 @@
 }
 
 .spotWindow {  
-    margin-top: 20px;
     display: grid;
     place-items: left;
     flex: 1;
     overflow-y: auto;
-    height: 86vh;
+    height: 89vh;
     width: 100%;
     animation: fadeIn 0.5s ease-in-out forwards;
+    border-left: 2.5px solid black;
+    margin-bottom: 0;
     
 }
 
 .spotInfoContainer {
+    margin-top: 20px;
     margin-left: 1.5vw;
     display: inline-block;
+    margin-bottom: 0;
 }
 
 #spotTitleText {
@@ -214,9 +219,8 @@
     color:white;
     height: 50px;
     width: 300px;
-    margin-top: 10px;
+    margin-top: 15px;
     margin-bottom: 10px;
-    
 }
 
 #spotInfo {
@@ -233,7 +237,7 @@
     display: block;
     height: 50vh;
     width: 38vw;
-    border-radius: 15px;
+
     /* margin-bottom: 5px; */
     animation: fadeIn 0.5s ease-in-out forwards;
     object-fit: cover;
@@ -254,7 +258,6 @@
 .imageContainer {
     position: relative;
     display: inline-block;
-    border-radius: 20px;
     border-style: solid;
     border-width: 5px;
   }
@@ -279,6 +282,82 @@
     width: 89%;
   }
 
+  .input-field {
+    padding-left: 10px;
+    font-weight: bold;
+    font-size: 2.5vh;
+    margin-bottom: 30px;
+    width: 89%;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: black;
+    border-width: 4px;
+  }
+
+  .commentSection {
+    font-size: 25px;
+    margin-top: 20px;
+  }
+
+  .commentsContainer {
+    inline-size: 37vw;
+    overflow-wrap: break-word;
+  }
+
+  .comments {
+    max-height: 500px;
+    width: "100%";
+    word-wrap: inherit; 
+    padding: 20px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    background-color: lightgray;
+    border-radius: 20px;
+    border-style: solid;
+  }
+
+  .sendIcon {
+    height: 40px;
+    width: 40px;
+    margin-bottom: 10px; 
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sendIcon:hover {
+    margin-bottom: "10px";
+    float: "right";
+    background-color: gray;
+    border-radius: 20px;
+    left: 10px;
+  }
+
+  .textAreaContainer {
+    width: 37vw;
+    margin-bottom: 10px;
+    border-color: black;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 3px;
+    padding: 15px;
+    padding-bottom: 0;
+    box-sizing: border-box;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .textArea {
+    height: 25px;
+    width: 100%;
+    border: none;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+  }
+
+
 /* ===== Scrollbar CSS ===== */
   /* Firefox */
   * {
@@ -301,7 +380,7 @@
     border: 3px solid #ffffff;
   }
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 1000px){
     .element-text {
         position: absolute;
         top: 65%;
@@ -330,17 +409,23 @@
     .leaflet-container {
         flex: 1;
         top:0;
-        height: 40vh;
+        height: 35vh;
         width: 100vw;
         padding-left: 0vw;
     }
 
+    #spotAddress {
+        padding-right: 20px;
+    }
+
     .spotContainer {
+        border-left: none;
+        border-top: 5px solid black;
         display: grid;
         place-items: center;
         flex: 1;
         overflow-y: scroll;
-        height: 51vh;
+        height: 55vh;
         width: 100%;
         animation: fadeIn 0.5s ease-in-out forwards;
     }
@@ -361,6 +446,10 @@
         
     }
 
+    .imageContainer {
+        margin-top: 10px;
+    }
+
     .spotImage {
         display: block;
         height: 30vh;
@@ -370,6 +459,8 @@
     }
 
     .spotInfoContainer {
+        padding-right: 5vw;
+        margin-top: 0;
         margin-left: 5vw;
         /* margin-right: 5vw; */
         display: inline-block;
@@ -380,16 +471,17 @@
     }
 
     .spotWindow { 
-        margin-top: 15px;
+        border-top: 5px solid black;
+        margin-top: 0;
         display: grid;
         place-items: left;
         flex: 1;
         /* overflow-y: auto; */
         /* overflow-x: hidden; */
-        height: 50vh;
+        height: 55vh;
         /* width: 100%; */
+        border-left: 0;
         animation: fadeIn 0.5s ease-in-out forwards;
-        
     }
     
     #spotTitleText {
@@ -401,10 +493,10 @@
         overflow-y: auto;
         overflow-x:hidden;
         height: auto;
-        width: 90vw;
+        width: 85vw;
         border-radius: 10px;
         border-color: black;
-        border-width: 0.5vh;
+        border-width: 0.3vh;
         border-style: solid;
         background-color: rgb(196, 196, 196);
         padding: 10px;
@@ -426,7 +518,7 @@
         background-color: rgb(0, 0, 0);
         color:white;
         height: 50px;
-        width: 89vw;
+        width: 85vw;
         margin-top: 2vh;
        
 }
@@ -438,7 +530,7 @@
         justify-content: space-between;
         align-items: center;
         padding: 0 1rem;
-        height: 7vh;
+        height: 8vh;
         text-overflow: auto;
     }
 
@@ -451,26 +543,29 @@
     }
 
     #loginButton {
+        height: 35px;
         border: none;
         border-radius: 10px;
         padding-top: 1vh;
         padding-bottom: 1vh;
         padding-left: 3vw;
         padding-right: 3vw;
-        font-size: 2vw;
+        font-size: 3vw;
     }
     
     #regButton {
+        height: 35px;
         border: none;
         border-radius: 10px;
         padding-top: 1vh;
         padding-bottom: 1vh;
         padding-left: 3vw;
         padding-right: 3vw;
-        font-size: 2vw;
+        font-size: 3vw;
     }
     
     #submitButton {
+        height: 35px;   
         color: black;
         border: none;
         border-radius: 10px;
@@ -479,7 +574,7 @@
         padding-bottom: 1vh;
         padding-left: 3vw;
         padding-right: 3vw;
-        font-size: 2vw;
+        font-size: 3vw;
      }
 
      .board {
@@ -491,5 +586,44 @@
         position: relative;
         height: 30vh;
         width: 89%;
+      }
+
+      .commentsContainer {
+        inline-size: 85vw;
+      }
+      
+      .comments {
+        border-radius: 25px;
+      }
+
+      .textAreaContainer {
+        width: 85vw;
+        margin-bottom: 10px;
+        border-color: black;
+        border-radius: 20px;
+        border-style: solid;
+        border-width: 3px;
+        padding: 15px;
+        padding-bottom: 0;
+        box-sizing: border-box;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+      
+      .input-field {
+        padding-left: 10px;
+        font-weight: bold;
+        font-size: 2.5vh;
+        margin-bottom: 0;
+        width: 89%;
+        border-style: solid;
+        border-radius: 10px;
+        border-color: black;
+        border-width: 4px;
+      }
+
+      #text1 {
+        margin-top: 2.5vh;
+        margin-bottom: 0;
       }
 }
