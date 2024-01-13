@@ -53,7 +53,7 @@ export default function Home() {
       } else {
       setAuthUser(null)
       }
-    })
+    }, [])
 
     onValue(databaseRef, (snapshot) => {
       snapshot.forEach(childSnapShot => {
@@ -101,14 +101,6 @@ export default function Home() {
       })
     }
     return null
-  }
-
-  const handleSearchInput = (e) => {
-    const inputValue = e.target.value;
-    setSearchInput(inputValue);
-    setFilteredData(prevData => markersData.filter(element =>
-      element.spotName.toLowerCase().includes(inputValue.toLowerCase()) || element.spotName.toLowerCase().includes(inputValue.toLowerCase())
-    )); 
   }
 
   const buttonStyle = {
@@ -173,7 +165,7 @@ const properties = {
       ):(
         <>
         {markersData ? (
-          <SpotContainer  markersData={markersData} getSpotContent={getSpotContent} setSearchInput = {setSearchInput} searchInput = {searchInput} handleSearchInput={handleSearchInput} filteredData={filteredData}/>
+          <SpotContainer  markersData={markersData} getSpotContent={getSpotContent} filteredData={filteredData} setFilteredData={setFilteredData}/>
           ) : (
             null
           )
