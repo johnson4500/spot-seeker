@@ -1,28 +1,22 @@
+import { set } from 'firebase/database';
+import { SearchBar } from './SearchBar';
 import { marker } from "leaflet";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 export function SpotContainer({
   markersData,
   getSpotContent,
-  searchInput, 
-  setSearchInput,
   filteredData,
-  handleSearchInput
+  setFilteredData
 }) {
+  const [searchInput, setSearchInput] = useState("");
+
   return <div className="spotContainer">
             <strong id="text1">View Skate Spots!</strong>
-            <input className="input-field" type="text" id="fname" name="fname" style={{
-              paddingLeft: "10px",
-              fontWeight: "bold",
-              fontSize: "2.5vh",
-              marginBottom: "30px",
-              width: "89%",
-              borderStyle: "solid",
-              borderRadius: "10px",
-              borderColor: "black",
-              borderWidth: "4px"
-            }} placeholder='Search...' value = {searchInput} onChange={handleSearchInput}/>
+            <SearchBar markersData={markersData} setFilteredData={setFilteredData} searchInput={searchInput} setSearchInput={setSearchInput}/>
+            {/* <div>
 
+            </div> */}
             <div className = "blocker">
             {filteredData.length > 0 ? (
               <>
@@ -44,7 +38,7 @@ export function SpotContainer({
               </>
             ) : (
               <div style = {{textAlign:"center"}}>
-              <strong style = {{position: "relative", fontSize: "20px"}}>No spots found matching search "{searchInput}".</strong>
+              <strong style = {{position: "relative", fontSize: "20px"}}>No spots found!</strong>
               <br></br>
               <strong>{":(("}</strong>
               </div>
