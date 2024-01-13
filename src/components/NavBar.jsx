@@ -39,12 +39,12 @@ export default function navBar() {
     <nav className = 'nav'>
         <div>
         <a href = '/spot-seeker/' className = 'titleSite'>Spot Seeker</a>
-        <img className = "board" src = "src\assets\board.png"></img>
+        <img className = "board" src = "https://firebasestorage.googleapis.com/v0/b/skatespots-56bd6.appspot.com/o/images%2Foutput-onlinepngtools.png?alt=media&token=e3691113-45bb-43f7-969b-f8acab958cc2"></img>
       </div>
       <ul>
         <li>
           <a href = "/spot-seeker/#submit">
-            <button className = "navButtons" id = "submitButton">Submit a Spot</button>
+            <button className = "navButtons" id = "submitButton">Submit</button>
           </a>
         </li>
         <li>
