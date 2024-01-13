@@ -3,14 +3,17 @@ import { Slide } from "react-slideshow-image";
 import {update, ref as dbRef, onValue} from 'firebase/database';
 import { rtDB} from '../firebaseconfig';
 import { v4 } from "uuid";
+import { useAuth } from "../pages/AuthContext";
+
 export function SpotInfoContainer({
   properties,
   spotID,
   filteredData,
   spotClick,
-  showMap
+  showMap,
 }) {
 
+  const { authUser, setAuthUser } = useAuth();
   const [text, setText] = useState("");
   const [commentsData, setCommentsData] = useState({});
   const commentRef = useMemo(() => dbRef(rtDB, 'spots/' + filteredData[spotID].spotName + '/comments'), [filteredData, spotID]);
@@ -24,22 +27,27 @@ export function SpotInfoContainer({
   };
 
   const postComment = () => {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = currentDate.getMonth() + 1;
-    const day = currentDate.getDate();
-    const hours = currentDate.getHours();
-    const minutes = currentDate.getMinutes();
+    if (authUser !== null) {
+      const currentDate = new Date();
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      const day = currentDate.getDate();
+      const hours = currentDate.getHours();
+      const minutes = currentDate.getMinutes();
 
-    const formattedDateTime = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day} ${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-    if (text.length > 1) {
-      update(commentRef, {
-        [v4()]: text + formattedDateTime,
-      }).then(() => {
-        setText("");
-        console.log("Comment added.");
-      });
-    } 
+      const formattedDateTime = `${year}-${month < 10 ? '0' : ''}${month}-${day < 10 ? '0' : ''}${day} ${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+      if (text.length > 1) {
+        update(commentRef, {
+          [v4()]: text + formattedDateTime,
+        }).then(() => {
+          setText("");
+          console.log("Comment added.");
+        });
+      } 
+    } else {
+      window.alert("Please sign in to comment!");
+    }
+    
   }
   
   useEffect(() => {
@@ -69,23 +77,6 @@ export function SpotInfoContainer({
 
   return (
   <>
-  {/* <div 
-    style = {{
-      boxSizing: "border-box",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      borderTopStyle: "solid",
-      borderLeftStyle: "solid", 
-      borderRightStyle: "solid", 
-      borderRadius: "20px",
-      top: "90%", 
-      position: "absolute",
-      height: "73px", 
-      width: "20%",
-      backgroundColor: "white"
-    }}> */}
-  {/* </div> */}
   <div className="spotInfoContainer">
     <div className="imageContainer">
       <div className='spotImage'>

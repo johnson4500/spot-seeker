@@ -5,7 +5,6 @@ import '../assets/Home.css'
 import 'leaflet/dist/leaflet.css'
 import {Icon, imageOverlay} from 'leaflet'
 import {React, useState, useEffect, useCallback, Fragment} from 'react'
-import { Helmet } from 'react-helmet'
 import NavBar from '../components/NavBar'
 import {ref, listAll, getDownloadURL} from 'firebase/storage'
 import {child, ref as dbRef, getDatabase, onValue} from 'firebase/database'
@@ -15,16 +14,16 @@ import { Slide } from 'react-slideshow-image'
 import 'react-slideshow-image/dist/styles.css'
 
 export default function Home() {
-  const spots = []
+  const spots = [];
   const [position, setPosition] = useState({latitude: 43.747474670410156, longitude: -79.49417877197266});
-  const [spotID, setSpotID] = useState(0)
-  const [isSpotClicked, setIsSpotClicked] = useState(false)
-  const [markersData, setMarkersData] = useState()
-  const [authUser, setAuthUser] = useState(null)
-  const imageListRef = ref(imgDB, 'images/')
-  const databaseRef = dbRef(rtDB, 'spots/')
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isMobileWidth, setIsMobileWidth] = useState(false)
+  const [spotID, setSpotID] = useState(0);
+  const [isSpotClicked, setIsSpotClicked] = useState(false);
+  const [markersData, setMarkersData] = useState();
+  // const [authUser, setAuthUser] = useState(null);
+  const imageListRef = ref(imgDB, 'images/');
+  const databaseRef = dbRef(rtDB, 'spots/');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
   const [searchInput, setSearchInput] = useState("");
   const [filteredData, setFilteredData] = useState();
 
@@ -47,14 +46,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user)
-      } else {
-      setAuthUser(null)
-      }
-    }, [])
-
+    
     onValue(databaseRef, (snapshot) => {
       snapshot.forEach(childSnapShot => {
         spots.push(childSnapShot.val())
@@ -119,7 +111,7 @@ const properties = {
 
   return (
     <Fragment>
-      <NavBar></NavBar>
+      <NavBar/>
       <div className = 'bigContainer'>
       {markersData ? (
         <MapContainer id = "mapcontainuh" center={[position.latitude, position.longitude]} zoom={12} scrollWheelZoom={false}>

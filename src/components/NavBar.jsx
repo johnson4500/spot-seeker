@@ -3,29 +3,25 @@ import {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import { auth } from '../firebaseconfig'
 import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { useAuth } from '../pages/AuthContext'
 
-export default function navBar() {
+export default function NavBar() {
   const navigate = useNavigate()
-  const [authUser, setAuthUser] = useState(null)
+  const { authUser, setAuthUser } = useAuth();
 
-  // function handleLogout() {
-  //   localStorage.removeItem('token')
-  //   navigate('/home')
-  // }
-  
   useEffect(() => {
     const listen = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAuthUser(user)
+        setAuthUser(user);
       } else {
-      setAuthUser(null)
+        setAuthUser(null);
       }
     })
 
     return () => {
         listen()
     }
-  }, [])
+  }, [authUser])
 
   const userSignOut = () => {
     signOut(auth).then(() => {
@@ -33,7 +29,6 @@ export default function navBar() {
         setAuthUser(null)
     }).catch(err => console.log(err))
   }
-
 
   return (
     <nav className = 'nav'>
